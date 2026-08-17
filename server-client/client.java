@@ -12,7 +12,7 @@ public class client {
              PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
             System.out.println("Connected to server " + host + ":" + port);
-
+  
             String userInput;
             while (true) {
                 System.out.print("Enter message (bye to quit): ");
