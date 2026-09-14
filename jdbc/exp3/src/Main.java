@@ -33,7 +33,6 @@ public class Main {
             String insertQuery = "INSERT INTO Student (id, name, branch) VALUES (?, ?, ?)";
             pstmt = conn.prepareStatement(insertQuery);
 
-            // Step 10: Set Values (Fixed types and added the missing 3rd parameter)
             pstmt.setInt(1, 101);                         // id
             pstmt.setString(2, "Sahil Sepat");               // name
             pstmt.setString(3, "Computer Science");       // branch
