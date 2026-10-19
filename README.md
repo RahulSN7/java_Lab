@@ -1,6 +1,6 @@
 # Advanced Java Programming Laboratory (ADJ Lab)
 
-A comprehensive collection of **Advanced Java Programming** laboratory practicals and projects, arranged chronologically from **Experiment 1 to the final Capstone Project**.
+A comprehensive collection of **Advanced Java Programming** laboratory practicals and projects, arranged chronologically from **Experiment 1 to the final Capstone Project (ShopSphere)**.
 
 ---
 
@@ -8,15 +8,18 @@ A comprehensive collection of **Advanced Java Programming** laboratory practical
 
 - [Index of Experiments](#-index-of-experiments)
 - [Prerequisites & System Setup](#-prerequisites--system-setup)
+- [Servlet Container Compatibility Guide](#-servlet-container-compatibility-guide)
 - [Experiment 1: GUI Form Development using Java Swing](#-experiment-1-gui-form-development-using-java-swing)
 - [Experiment 2: Model-View-Controller (MVC) Architecture](#-experiment-2-model-view-controller-mvc-architecture)
 - [Experiment 3: TCP Socket Programming (Client-Server Communication)](#-experiment-3-tcp-socket-programming-client-server-communication)
 - [Experiment 4: Java Database Connectivity (JDBC) CRUD Operations](#-experiment-4-java-database-connectivity-jdbc-crud-operations)
 - [Experiment 5: Database-Driven GUI Application (Swing + JDBC Integration)](#-experiment-5-database-driven-gui-application-swing--jdbc-integration)
 - [Experiment 6: Remote Method Invocation (Java RMI Distributed Computing)](#-experiment-6-remote-method-invocation-java-rmi-distributed-computing)
-- [Experiment 7: Web Server Environment Setup & Application Deployment (Apache Tomcat)](#-experiment-7-web-server-environment-setup--application-deployment-apache-tomcat)
+- [Experiment 7: Web Server Environment Setup & Application Deployment (Apache Tomcat 9)](#-experiment-7-web-server-environment-setup--application-deployment-apache-tomcat-9)
 - [Experiment 8: Java Web Development with Servlets, Filters, and Listeners](#-experiment-8-java-web-development-with-servlets-filters-and-listeners)
-- [Experiment 9 / Capstone: Enterprise Cycling E-Commerce Platform (BikeIsNice)](#-experiment-9--capstone-enterprise-cycling-e-commerce-platform-bikeisnice)
+- [Experiment 9 / Capstone: ShopSphere E-Commerce Platform (java_Lab_Project)](#-experiment-9--capstone-shopsphere-e-commerce-platform-java_lab_project)
+- [Troubleshooting Guide](#-troubleshooting-guide)
+- [Repository & Author Information](#-repository--author-information)
 
 ---
 
@@ -27,12 +30,12 @@ A comprehensive collection of **Advanced Java Programming** laboratory practical
 | **01** | **Student Registration GUI Form** | Java Swing, AWT, Event Handling | [`exp1/`](exp1/) |
 | **02** | **MVC Pattern Calculator Application** | Java Swing, MVC Architecture | [`calc/`](calc/) |
 | **03** | **TCP Socket Client-Server Echo System** | Java Networking (`java.net`), Sockets, I/O Streams | [`server-client/`](server-client/) |
-| **04** | **Database Connectivity & SQL Operations (JDBC)** | JDBC 4.2, MySQL, PreparedStatements | [`jdbc/exp3/`](jdbc/exp3/) |
+| **04** | **Database Connectivity & SQL Operations (JDBC)** | JDBC 4.2, MySQL Connector/J, PreparedStatements | [`jdbc/exp3/`](jdbc/exp3/) |
 | **05** | **Integrated GUI with Database Storage** | Swing GUI, JDBC, MySQL, Input Validation | [`strjdbc/`](strjdbc/) |
 | **06** | **Distributed Computing via Java RMI** | Java RMI, Remote Interfaces, RMI Registry | [`Remote-Method-Invocation/`](Remote-Method-Invocation/) |
-| **07** | **Servlet Container & Web Server Deployment** | Apache Tomcat 9, WAR Deployment, Web XML | [`apache-tomcat-9.0.121/`](apache-tomcat-9.0.121/) |
-| **08** | **Java Servlets, Sessions, Filters & Listeners** | Jakarta EE Servlet API, Session Tracking, Filters | [`servent/`](servent/) |
-| **09** | **Full-Stack Enterprise E-Commerce Platform** | Jakarta EE 11, Servlets 6.1, JSP 3.1, JSTL, MySQL DAO, Swing Desktop Admin, Sockets & RMI | [`BikeIsNice/`](BikeIsNice/) |
+| **07** | **Servlet Container & Web Server Deployment** | Apache Tomcat 9.0.121, WAR Deployment, Web XML | [`apache-tomcat-9.0.121/`](apache-tomcat-9.0.121/) |
+| **08** | **Java Web Development with Servlets, Filters, and Listeners** | Jakarta EE Servlet API 6.1, Session Tracking, Filters | [`servent/`](servent/) |
+| **09** | **ShopSphere Pro Cycling E-Commerce Platform (Capstone)** | Java 21, javax.servlet (Servlet 4.0 / JSP 2.3 / JSTL 1.2), JDBC, MySQL 8, Tomcat 9, Swing Desktop Admin, Sockets & RMI | [`java_Lab_Project/`](java_Lab_Project/) |
 
 ---
 
@@ -40,21 +43,41 @@ A comprehensive collection of **Advanced Java Programming** laboratory practical
 
 Ensure the following tools and runtimes are installed on your workstation:
 
-1. **Java Development Kit (JDK 17 or 21+):**
-   ```bash
+1. **Java Development Kit (JDK 21 LTS or 26):**
+   ```powershell
    java -version
    javac -version
    ```
-2. **MySQL Database Server (8.0+):**
-   ```bash
-   mysql --version
-   ```
-3. **Apache Maven (3.8+):**
-   ```bash
+2. **Apache Maven (3.9+ / 3.10.0):**
+   ```powershell
    mvn -version
    ```
-4. **Apache Tomcat Server (9.0.x or 10.1+/11.0.x):**
-   Bundled inside [`apache-tomcat-9.0.121/`](apache-tomcat-9.0.121/) for Servlet development.
+3. **MySQL Database Server (8.0+ / 8.4 LTS):**
+   ```powershell
+   # Windows PowerShell: Check Windows Service status
+   Get-Service -Name MySQL80
+
+   # Start service if stopped
+   Start-Service -Name MySQL80
+   ```
+4. **Apache Tomcat Server 9.0.121:**
+   Bundled directly within the workspace at [`apache-tomcat-9.0.121/`](apache-tomcat-9.0.121/).
+
+---
+
+## 🌐 Servlet Container Compatibility Guide
+
+When developing Java web applications, understanding the transition between the `javax.servlet` and `jakarta.servlet` namespaces is essential:
+
+| Specification | Package Namespace | Compatible Tomcat Versions | Projects in this Repository |
+|---|---|---|---|
+| **Java EE / Servlet 4.0** | `javax.servlet.*` | **Apache Tomcat 9.0.x** (Bundled: `9.0.121`) | **ShopSphere Capstone** ([`java_Lab_Project/`](java_Lab_Project/)) |
+| **Jakarta EE 10+ / Servlet 6.0+** | `jakarta.servlet.*` | **Apache Tomcat 10.1.x / 11.0.x** | **Experiment 8** ([`servent/`](servent/)) |
+
+> **Key Rule for this Laboratory:**  
+> - [`apache-tomcat-9.0.121/`](apache-tomcat-9.0.121/) runs on **Servlet 4.0 (`javax.servlet`)**.
+> - The **ShopSphere** capstone in [`java_Lab_Project/`](java_Lab_Project/) is configured for **Tomcat 9.0.121** using `javax.servlet-api` 4.0.1 and JSTL 1.2.
+> - The standalone exercise in [`servent/`](servent/) demonstrates the modern **Jakarta EE Servlet API 6.1** specification.
 
 ---
 
@@ -77,14 +100,18 @@ exp1/
 - **User Validation**: Validates required fields and terms acceptance, rendering user details via `JOptionPane.showMessageDialog()`.
 
 ### 🚀 Compilation & Execution
-```bash
-# Navigate to experiment directory
-cd exp1
 
-# Compile
+#### Windows PowerShell:
+```powershell
+cd F:\java_Lab\exp1
 javac StudentRegistration.java
+java StudentRegistration
+```
 
-# Run
+#### Linux / macOS:
+```bash
+cd exp1
+javac StudentRegistration.java
 java StudentRegistration
 ```
 
@@ -112,14 +139,18 @@ calc/
 - **Benefits**: Loose coupling, high maintainability, and clean code separation.
 
 ### 🚀 Compilation & Execution
-```bash
-# Navigate to experiment directory
-cd calc
 
-# Compile all source files
+#### Windows PowerShell:
+```powershell
+cd F:\java_Lab\calc
 javac *.java
+java Runmain
+```
 
-# Launch application
+#### Linux / macOS:
+```bash
+cd calc
+javac *.java
 java Runmain
 ```
 
@@ -147,8 +178,23 @@ server-client/
 ### 🚀 Compilation & Execution
 Open two terminal windows:
 
+#### Windows PowerShell:
+```powershell
+# In both terminals, navigate to experiment directory:
+cd F:\java_Lab\server-client
+
+# Compile both programs (run once):
+javac server.java client.java
+
+# Terminal 1: Start Server
+java server
+
+# Terminal 2: Start Client
+java client
+```
+
+#### Linux / macOS:
 ```bash
-# Compile both programs
 cd server-client
 javac server.java client.java
 
@@ -184,6 +230,7 @@ jdbc/exp3/
 - **Data Retrieval with `Statement` & `ResultSet`**: Executing `SELECT` queries and reading result records via cursor traversal (`rs.next()`).
 
 ### 🗄️ Database Setup
+Execute in MySQL Workbench or the MySQL Command Line:
 ```sql
 CREATE DATABASE IF NOT EXISTS collage_db;
 USE collage_db;
@@ -196,10 +243,24 @@ CREATE TABLE IF NOT EXISTS Student (
 ```
 
 ### 🚀 Compilation & Execution
+
+#### Windows PowerShell:
+> Note: On Windows, use a semicolon (`;`) as the classpath separator.
+```powershell
+cd F:\java_Lab\jdbc\exp3
+
+# Compile with JDBC Driver in classpath
+javac -cp "lib/*;src" src/Main.java -d bin
+
+# Run program
+java -cp "lib/*;bin" Main
+```
+
+#### Linux / macOS:
 ```bash
 cd jdbc/exp3
 
-# Compile with JDBC Driver in classpath
+# Compile with JDBC Driver in classpath (colon separator)
 javac -cp "lib/*:src" src/Main.java -d bin
 
 # Run program
@@ -231,6 +292,7 @@ strjdbc/
 - **Thread Safety**: Dispatches UI rendering via `SwingUtilities.invokeLater()`.
 
 ### 🗄️ Database Setup
+Execute in MySQL Workbench or the MySQL Command Line:
 ```sql
 CREATE DATABASE IF NOT EXISTS collage_db;
 USE collage_db;
@@ -245,6 +307,19 @@ CREATE TABLE IF NOT EXISTS streg (
 ```
 
 ### 🚀 Compilation & Execution
+
+#### Windows PowerShell:
+```powershell
+cd F:\java_Lab\strjdbc
+
+# Compile
+javac -cp "lib/*;src" src/StudentRegistration.java -d bin
+
+# Run
+java -cp "lib/*;bin" StudentRegistration
+```
+
+#### Linux / macOS:
 ```bash
 cd strjdbc
 
@@ -278,39 +353,57 @@ Remote-Method-Invocation/
 - **Client Lookup & Invocation**: `client` resolves the remote stub via `Naming.lookup(...)` and transparently invokes arithmetic operations across JVMs.
 
 ### 🚀 Compilation & Execution
-```bash
-cd Remote-Method-Invocation
 
-# Compile all RMI files
+#### Windows PowerShell:
+Open three terminal windows (or run `rmiregistry` as a background process):
+```powershell
+cd F:\java_Lab\Remote-Method-Invocation
+
+# Compile all source files
 javac *.java
 
-# Start RMI Registry (if not embedded)
-rmiregistry &
+# Terminal 1: Start RMI Registry
+Start-Process rmiregistry
 
-# Terminal 1: Start RMI Server
+# Terminal 2: Start RMI Server
 java Server
 
-# Terminal 2: Run RMI Client
+# Terminal 3: Run RMI Client
+java client
+```
+
+#### Linux / macOS:
+```bash
+cd Remote-Method-Invocation
+javac *.java
+
+# Start RMI Registry in background
+rmiregistry &
+
+# Terminal 1: Start Server
+java Server
+
+# Terminal 2: Run Client
 java client
 ```
 
 ---
 
-## 🧪 Experiment 7: Web Server Environment Setup & Application Deployment (Apache Tomcat)
+## 🧪 Experiment 7: Web Server Environment Setup & Application Deployment (Apache Tomcat 9)
 
 ### 🎯 Aim & Objective
-To configure and manage an enterprise Java Servlet Container and Web Server (**Apache Tomcat 9**), understand the container directory structure, configure deployment descriptors, and deploy web applications.
+To configure and manage an enterprise Java Servlet Container and Web Server (**Apache Tomcat 9.0.121**), understand the container directory structure, configure deployment descriptors, and deploy web applications.
 
 ### 📂 Directory & File Structure
 ```
 apache-tomcat-9.0.121/
-├── bin/                    # Server lifecycle scripts (startup.sh, shutdown.sh, catalina.sh)
+├── bin/                    # Server lifecycle scripts (startup.bat/.sh, shutdown.bat/.sh)
 ├── conf/                   # Configuration files (server.xml, web.xml, context.xml)
 ├── lib/                    # Servlet API & container libraries (servlet-api.jar, jsp-api.jar)
-├── logs/                   # Catalina and access log files
+├── logs/                   # Catalina and access log files (catalina.<YYYY-MM-DD>.log)
 ├── webapps/                # Deployment folder for web applications
 │   ├── myWebapp/           # Static and dynamic test webapp
-│   └── servlet-1.0-SNAPSHOT.war # Deployed Web Archive
+│   └── shopsphere.war      # Deployed ShopSphere Web Archive
 └── work/                   # Compiled JSP servlets and temporary runtime files
 ```
 
@@ -320,18 +413,25 @@ apache-tomcat-9.0.121/
 - **WAR Deployment**: Automated unpacking and deployment of Web Application Archives in `webapps/`.
 
 ### 🚀 Running the Tomcat Server
-```bash
-cd apache-tomcat-9.0.121/bin
 
-# Ensure scripts have execute permissions
-chmod +x *.sh
+#### Windows PowerShell:
+```powershell
+cd F:\java_Lab\apache-tomcat-9.0.121\bin
 
-# Start Tomcat Server
-./startup.sh
+# Start Tomcat Server (opens separate console window)
+.\startup.bat
 
 # Open browser: http://localhost:8080/
 
-# Stop Tomcat Server
+# Stop Tomcat Server gracefully
+.\shutdown.bat
+```
+
+#### Linux / macOS:
+```bash
+cd apache-tomcat-9.0.121/bin
+chmod +x *.sh
+./startup.sh
 ./shutdown.sh
 ```
 
@@ -340,12 +440,12 @@ chmod +x *.sh
 ## 🧪 Experiment 8: Java Web Development with Servlets, Filters, and Listeners
 
 ### 🎯 Aim & Objective
-To develop a dynamic Java Web Application utilizing the Servlet API (Jakarta EE), demonstrating form processing, session tracking (`HttpSession`), request filtering (`@WebFilter`), and application lifecycle events (`@WebListener`).
+To develop a dynamic Java Web Application utilizing the **Jakarta EE Servlet API 6.1**, demonstrating form processing, session tracking (`HttpSession`), request filtering (`@WebFilter`), and application lifecycle events (`@WebListener`).
 
 ### 📂 Directory & File Structure
 ```
 servent/
-├── pom.xml                 # Maven build file configured for Jakarta Servlet API
+├── pom.xml                 # Maven build file configured for Jakarta Servlet API 6.1
 └── src/
     └── main/
         ├── java/com/servelent/
@@ -366,145 +466,285 @@ servent/
 - **`AuthFilter` (`@WebFilter("/home")`)**: Intercepts requests to `/home`, checks for valid user sessions, and redirects unauthorized users back to `index.html`.
 - **`AppListener` (`@WebListener`)**: Implements `ServletContextListener` to log messages upon application startup (`contextInitialized`) and shutdown (`contextDestroyed`).
 
-### 🚀 Building and Deploying with Maven
-```bash
-cd servent
+### 🚀 Building with Maven
+```powershell
+cd F:\java_Lab\servent
 
 # Build WAR archive using Maven
 mvn clean package
+```
+*Note: Because `servent` targets Jakarta EE Servlet 6.1 (`jakarta.servlet.*`), deployment requires a Jakarta-compatible container such as Apache Tomcat 10.1+ or Tomcat 11.*
 
-# Copy generated WAR into Tomcat webapps
-cp target/servlet-1.0-SNAPSHOT.war ../apache-tomcat-9.0.121/webapps/
+---
 
-# Start Tomcat and browse:
-# http://localhost:8080/servlet-1.0-SNAPSHOT/
+## 🚴 Experiment 9 / Capstone: ShopSphere E-Commerce Platform (java_Lab_Project)
+
+### 🎯 Aim & Objective
+
+To architect and implement a full-stack Java web application and distributed system, **ShopSphere**, synthesizing advanced Java concepts:
+- **Web Layer:** Java Servlets using `javax.servlet` (Servlet 4.0 / JSP 2.3), JSTL 1.2, and custom JSP tags (`productCard.tag`, `rating.tag`).
+- **Persistence Layer:** Relational MySQL 8 database with JDBC DAO pattern (`CartDAO`, `CouponDAO`, `OrderDAO`, `PaymentDAO`, `ProductDAO`, `UserDAO`).
+- **Security & Lifecycle:** Cryptographic PBKDF2 password hashing, session fixation mitigation (`req.changeSessionId()`), request interceptor filters (`AuthenticationFilter`, `AdminFilter`), and startup schema validation (`DatabaseInitializerListener`).
+- **Desktop Administration:** Swing administrative desktop GUI (`LoginFrame`, `AdminDashboard` using `JTabbedPane`, `JTable`, `JScrollPane`).
+- **Distributed Networking:** Standalone TCP Socket and Java RMI inventory management modules demonstrating inter-process communication.
+
+---
+
+### 📂 Directory & File Structure
+
+```
+java_Lab_Project/
+├── pom.xml                               # Maven build configuration (Java 21, Tomcat 9 dependencies)
+├── README.md                             # Dedicated ShopSphere project documentation
+├── schema-init.sql                       # Non-destructive database setup (CREATE TABLE IF NOT EXISTS)
+├── shopsphere.sql                        # Destructive reset script (Contains DROP TABLE IF EXISTS)
+├── test-networking.sh                    # Standalone shell script for networking demonstration
+│
+├── src/main/
+│   ├── java/com/shopsphere/
+│   │   ├── controller/                   # Servlets: Cart, Checkout, Login, Logout, Product, Register
+│   │   ├── dao/                          # 6 DAOs: CartDAO, CouponDAO, OrderDAO, PaymentDAO, ProductDAO, UserDAO
+│   │   ├── filter/                       # Security filters: AuthenticationFilter, AdminFilter
+│   │   ├── listener/                     # Startup listener: DatabaseInitializerListener (validates 12 tables)
+│   │   ├── model/                        # 12 Entities: Address, CartItem, Category, Coupon, CouponUsage,
+│   │   │                                 #             Order, OrderItem, Payment, Product, Review, User, WishlistItem
+│   │   ├── service/                      # Business services: CheckoutService, OrderService, ProductService
+│   │   ├── util/                         # DBConnection (environment-based), PasswordUtil (PBKDF2)
+│   │   ├── desktop/                      # Swing desktop GUI: LoginFrame, AdminDashboard
+│   │   └── network/                      # Distributed networking:
+│   │       ├── socket/                   # TCP Socket Inventory Server & Client
+│   │       └── rmi/                      # Java RMI Inventory Service, Server & Client
+│   │
+│   └── webapp/                           # Web application root
+│       ├── WEB-INF/
+│       │   ├── web.xml                   # Servlet mappings, filters, and startup listener
+│       │   ├── tags/                     # Custom tags: productCard.tag, rating.tag
+│       │   ├── fragments/                # Layout fragments: header, navbar, footer, sidebar
+│       │   └── views/                    # Views: product-detail.jsp, login.jsp, register.jsp, order-confirmation.jsp
+│       ├── fragments/                    # Public layout fragments: header, navbar, footer, sidebar
+│       ├── css/styles.css                # ShopSphere UI stylesheet and design tokens
+│       ├── index.jsp                     # Storefront homepage & hero showcase
+│       ├── products.jsp                  # Product catalog with search, category/price filter, sorting, pagination
+│       ├── cart.jsp                      # Shopping cart view with quantity adjustments and line totals
+│       ├── checkout.jsp                  # 3-step checkout flow (shipping, coupon redemption, payment selection)
+│       └── admin/                        # Admin JSP views: dashboard.jsp, orders.jsp, sidebar.jsp
+│
+├── src/test/java/com/shopsphere/
+│   └── DatabaseSchemaTest.java           # JUnit 5 schema and seed data validation tests
+│
+├── scripts/
+│   ├── run-local.ps1                     # Interactive launcher setting env vars and starting Tomcat
+│   ├── init-db.ps1                       # Helper applying schema-init.sql non-destructively
+│   └── setenv.bat.template               # Template for Tomcat bin\setenv.bat
+│
+└── target/
+    └── shopsphere.war                    # Maven-generated deployable WAR file
 ```
 
 ---
 
-# 🚴 Experiment 9 / Capstone: Enterprise Cycling E-Commerce Platform (java_Lab_Project)
+### 💡 Verified Application Features
 
-## 🎯 Aim & Objective
+#### 1. Storefront & Product Catalog
+- **Storefront (`index.jsp`):** Executive hero showcase, assurance badges, and featured cycling inventory.
+- **Product Catalog (`products.jsp` / `ProductServlet.java`):**
+  - **Category Filtering:** 5 categories: Mountain Bikes (MTB), Road & Racing Bikes, Electric Bikes (E-Bikes), Gravel & Hybrid Bikes, and Cycling Gear & Accessories.
+  - **Keyword Search:** Query matching across product name, description, and SKU (`?q=...`).
+  - **Price Range Filter:** Filter catalog by minimum and maximum price (`minPrice` / `maxPrice`).
+  - **Sorting:** Server-side sorting supporting `newest`, `price_asc` (Low to High), and `price_desc` (High to Low).
+  - **Pagination:** Multi-page catalog navigation displaying 20 items per page with active page tracking (`page=...`).
+- **Product Details (`WEB-INF/views/product-detail.jsp`):** High-resolution view with specs table, dynamic pricing, and stock-capped quantity picker.
 
-To architect and implement an enterprise-grade full-stack Java web application and distributed system, **java_Lab_Project (ShopSphere)**, synthesizing advanced Java concepts: Jakarta Servlets, JSP/JSTL views, custom tags, a relational MySQL database, JDBC DAO design pattern, session security filters, a native Java Swing desktop administration dashboard, and standalone distributed networking modules (Sockets and RMI).
+#### 2. Cart & 3-Step Checkout Flow
+- **Shopping Cart (`cart.jsp` / `CartServlet.java`):** Dual mode supporting guest session carts and persistent user database carts. Supports Add, Update quantity, Remove item, and Clear cart actions.
+- **3-Step Checkout Flow (`checkout.jsp` / `CheckoutServlet.java` / `CheckoutService.java`):**
+  - **Step 1:** Recipient delivery and billing address selection.
+  - **Step 2:** Coupon redemption supporting percentage (`BIKE10`) and flat-rate (`RIDE50`) vouchers.
+  - **Step 3:** Payment method selector (Credit Card, PayPal, Cash on Delivery) and custom delivery notes.
+  - **Payment Clarification:** The application provides an internal **payment method selector and simulation** (generates a unique `TXN-...` transaction ID and updates records in the `payments` table). It does **not** connect to an external commercial payment gateway API.
+  - **Calculation Integrity:** Subtotals, discount caps, freight rules ($100 free shipping threshold, otherwise $10.00), and 8% tax are calculated strictly on the server in `CheckoutService` from database records.
+  - **Stock Deduction:** Verifies available inventory before checkout and decrements stock atomically via `productDAO.updateStock`.
 
-## 📂 Directory & File Structure
+#### 3. Authentication & Access Control
+- **Authentication (`LoginServlet.java` / `login.jsp`):** Cryptographic verification against PBKDF2 hashes (`65536` iterations), session fixation protection via `req.changeSessionId()`, and automatic guest-cart migration.
+- **Role Enforcement (`AdminFilter.java`):** Protects `/admin/*` views, validating that authenticated users possess the `ADMIN` role. Non-admins receive HTTP 403 Forbidden.
+- **Startup Integrity (`DatabaseInitializerListener.java`):** Validates all 12 required tables at Tomcat startup before accepting user traffic.
 
-```text
-java_Lab_Project/
-├── pom.xml                         # Maven project configuration
-├── shopsphere.sql                  # MySQL schema and seed data
-├── test-networking.sh              # Automated Sockets and RMI test runner
-├── README.md                       # Project documentation
-├── src/main/
-│   ├── java/com/shopsphere/
-│   │   ├── controller/             # Jakarta Servlets
-│   │   ├── dao/                    # JDBC Data Access Objects
-│   │   ├── desktop/                # Swing administration GUI
-│   │   ├── filter/                 # Authentication and authorization filters
-│   │   ├── model/                  # Domain models and entities
-│   │   ├── network/
-│   │   │   ├── rmi/                # Java RMI inventory service and client
-│   │   │   └── socket/             # TCP Socket inventory server and client
-│   │   ├── service/                # Business logic and checkout processing
-│   │   └── util/                   # Database connection and utility classes
-│   └── webapp/
-│       ├── index.jsp               # Storefront homepage
-│       ├── products.jsp            # Product catalog
-│       ├── cart.jsp                # Shopping cart
-│       ├── checkout.jsp             # Checkout workflow
-│       ├── admin/                  # Administration views
-│       └── WEB-INF/tags/           # Reusable custom JSP tags
-└── target/
-    └── shopsphere.war              # Packaged web application archive
+#### 4. Desktop Administration GUI
+- Native Swing GUI application ([`LoginFrame.java`](file:///F:/java_Lab/java_Lab_Project/src/main/java/com/shopsphere/desktop/LoginFrame.java) and [`AdminDashboard.java`](file:///F:/java_Lab/java_Lab_Project/src/main/java/com/shopsphere/desktop/AdminDashboard.java)) utilizing system Look-and-Feel (PLAF), `JTabbedPane`, `JTable`, and `JScrollPane` for managing products, orders, and customer accounts.
+
+#### 5. Distributed Networking Modules
+- **TCP Socket Module (`com.shopsphere.network.socket`):** Multi-threaded `SocketInventoryServer` handling concurrent client requests (`GET_STOCK`, `UPDATE_STOCK`, `LIST_ALL`, `PING`) paired with `SocketInventoryClient`.
+- **Java RMI Module (`com.shopsphere.network.rmi`):** `RmiInventoryServer` programmatically initializing an RMI Registry on port 1099 and binding `InventoryService`, consumed by `RmiInventoryClient`.
+
+---
+
+### 🗄️ Database Setup & Safety Guidelines
+
+#### ⚠️ Critical Safety Notice: Two SQL Scripts
+
+| Script Name | Operation Type | Safety Profile |
+|---|---|---|
+| **[`schema-init.sql`](file:///F:/java_Lab/java_Lab_Project/schema-init.sql)** | `CREATE TABLE IF NOT EXISTS`<br>`INSERT IGNORE INTO` | **Safe / Non-Destructive (Recommended).** Contains 0 DROP, 0 TRUNCATE, and 0 DELETE statements. Never drops tables or erases existing records. |
+| **[`shopsphere.sql`](file:///F:/java_Lab/java_Lab_Project/shopsphere.sql)** | `DROP TABLE IF EXISTS` (12 tables)<br>`CREATE TABLE`<br>`INSERT INTO` | **Destructive Reset.** Drops and recreates all 12 tables. **Will erase all products, users, carts, and customer orders!** |
+
+#### Verified Tables (12 Required)
+`users`, `addresses`, `categories`, `products`, `cart`, `wishlist`, `coupons`, `orders`, `order_items`, `payments`, `reviews`, `coupon_usage`.
+
+#### Seed Accounts & Vouchers
+- **Administrator:** `admin@shopsphere.com` | Password: `Password123!` (Role: `admin`)
+- **Customer:** `customer@shopsphere.com` | Password: `Password123!` (Role: `customer`)
+- **Vouchers:** `BIKE10` (10% off orders $100+), `RIDE50` ($50 off orders $500+), `SAVE10` (10% off orders $50+), `WELCOME20` ($20 off orders $100+).
+
+#### Initializing the Database in Windows PowerShell
+> Note: Do not use `<` redirection in Windows PowerShell (PowerShell reserves `<`). Use either of the working methods below:
+
+```powershell
+# Method 1: Using the provided non-destructive PowerShell helper (Recommended)
+powershell -ExecutionPolicy Bypass -File "F:\java_Lab\java_Lab_Project\scripts\init-db.ps1"
+
+# Method 2: Pipe schema-init.sql into mysql client
+Get-Content "F:\java_Lab\java_Lab_Project\schema-init.sql" | & mysql -u root -p shopsphere
+
+# Method 3: Using MySQL execute source command (use forward slashes)
+& mysql -u root -p --default-character-set=utf8mb4 -e "source F:/java_Lab/java_Lab_Project/schema-init.sql"
 ```
 
-## 💡 Enterprise Features & Advanced Java Highlights
+---
 
-### 1. Full-Stack Web Architecture
+### 🔐 Configuring Database Environment Variables
 
-Uses Java web technologies, including Jakarta Servlets, JSP/JSTL, and Bootstrap for building a web-based shopping experience.
+ShopSphere's [`DBConnection.java`](file:///F:/java_Lab/java_Lab_Project/src/main/java/com/shopsphere/util/DBConnection.java) reads credentials directly from environment variables:
 
-### 2. Server-Side Pricing and Checkout
+| Variable Name | Required Value | Notes |
+|---|---|---|
+| `DB_URL` | `jdbc:mysql://localhost:3306/shopsphere` | Direct JDBC URL (overrides DB_HOST/PORT/NAME) |
+| `DB_USER` | Your MySQL username | e.g. `root` |
+| `DB_PASSWORD` | Your MySQL password | Your actual local MySQL password |
 
-Processes product prices, subtotals, taxes, and coupon discounts on the server to reduce the risk of client-side price manipulation.
+#### Setting Permanent User Variables in Windows:
+1. Press `Win + R`, type `sysdm.cpl`, and press **Enter**.
+2. Go to **Advanced** &rarr; **Environment Variables...**.
+3. Under **User variables**, click **New...** and add `DB_URL`, `DB_USER`, and `DB_PASSWORD`.
+4. Click **OK** to save, then restart any open PowerShell windows.
 
-### 3. Database and Persistence
-
-Uses MySQL for relational data storage and JDBC for database operations. SQL queries should use `PreparedStatement` to help protect against SQL injection.
-
-### 4. Desktop Administrator GUI
-
-Includes a Java Swing desktop administration interface using components such as `JTabbedPane`, `JTable`, and `JScrollPane` for presenting administrative information.
-
-### 5. Distributed Networking Modules
-
-* **TCP Sockets:** Inventory communication through socket-based server and client modules.
-* **Java RMI:** Remote inventory operations through a Java Remote Method Invocation service and client.
-
-## 🚀 Running the Capstone Platform
-
-### Prerequisites
-
-Ensure you have the following installed:
-
-* Java Development Kit (JDK)
-* Apache Maven
-* MySQL Server
-* Apache Tomcat or another compatible Jakarta Servlet container
-
-### Step 1: Navigate to the Project Directory
-
-```bash
-cd java_Lab_Project
+#### Safe Verification Command (No Password Exposure):
+```powershell
+Write-Output "DB_URL:      $env:DB_URL"
+Write-Output "DB_USER:     $env:DB_USER"
+if ($env:DB_PASSWORD) {
+    Write-Output "DB_PASSWORD: [Configured - $($env:DB_PASSWORD.Length) characters]"
+} else {
+    Write-Output "DB_PASSWORD: [MISSING]"
+}
 ```
 
-### Step 2: Import the Database
+---
 
-Update the database username and password according to your local MySQL configuration.
+### 🚀 Running the ShopSphere Platform
 
-```bash
-mysql -u root -p < shopsphere.sql
+#### Step 1: Ensure MySQL is Running
+```powershell
+Start-Service -Name MySQL80
 ```
 
-Enter your MySQL password when prompted.
-
-### Step 3: Build the Web Application
-
-```bash
+#### Step 2: Build the Web Application
+```powershell
+cd F:\java_Lab\java_Lab_Project
 mvn clean package
 ```
+*Output artifact:* `F:\java_Lab\java_Lab_Project\target\shopsphere.war`.
 
-If the build succeeds, check the `target/` directory for the generated WAR file.
+#### Step 3: Deploy WAR to Tomcat 9
+> **Windows File Lock Precaution:** Always stop Tomcat before deploying to prevent file lock errors on extracted JARs.
 
-### Step 4: Run the Swing Desktop Administration Application
+```powershell
+# Stop Tomcat if running
+cd F:\java_Lab\apache-tomcat-9.0.121\bin
+.\shutdown.bat
 
-```bash
+# Copy WAR to webapps
+Copy-Item "F:\java_Lab\java_Lab_Project\target\shopsphere.war" "F:\java_Lab\apache-tomcat-9.0.121\webapps\shopsphere.war" -Force
+
+# Start Tomcat
+.\startup.bat
+```
+
+#### Step 4: Open the Web Application
+Visit in your web browser:  
+**[http://localhost:8080/shopsphere/products](http://localhost:8080/shopsphere/products)**
+
+#### Step 5: Run the Swing Desktop Admin Application (Optional)
+```powershell
+cd F:\java_Lab\java_Lab_Project
 java -cp target/classes com.shopsphere.desktop.LoginFrame
 ```
 
-Make sure the project has been compiled and the required database configuration is available.
+#### Step 6: Run Distributed Networking Demonstrations (Optional)
 
-### Step 5: Run the Networking Test Suite
+##### TCP Socket Inventory Server & Client:
+```powershell
+# Terminal 1: Launch Socket Server on port 8092
+cd F:\java_Lab\java_Lab_Project
+java -cp target/classes com.shopsphere.network.socket.SocketInventoryServer 8092
 
-If the script is available and executable in your environment, run:
-
-```bash
-bash test-networking.sh
+# Terminal 2: Run Socket Client
+cd F:\java_Lab\java_Lab_Project
+java -cp target/classes com.shopsphere.network.socket.SocketInventoryClient localhost 8092
 ```
 
-Follow the instructions printed by the script if additional configuration is required.
+##### Java RMI Inventory Server & Client:
+```powershell
+# Terminal 1: Launch RMI Server (programmatically creates registry on port 1099)
+cd F:\java_Lab\java_Lab_Project
+java -cp target/classes com.shopsphere.network.rmi.RmiInventoryServer
 
-## 📌 Project Information
+# Terminal 2: Run RMI Client
+cd F:\java_Lab\java_Lab_Project
+java -cp target/classes com.shopsphere.network.rmi.RmiInventoryClient localhost 1099
+```
 
-* **Project Name:** java_Lab_Project
-* **Application Name:** ShopSphere
-* **Author:** Rahul Singh Negi
-* **Course:** Advanced Java Laboratory (ADJ Lab)
-* **Repository:** [java_lab](https://github.com/RahulSN7/java_lab)
+---
 
-## 👨‍💻 Author
+## 🔧 Troubleshooting Guide
 
-**Rahul Singh Negi**
+### 1. `ClassNotFoundException: com.mysql.cj.jdbc.Driver` in Exp 4 or 5
+- **Cause:** Classpath delimiter is incorrect for your operating system.
+- **Solution:**
+  - On **Windows**: use a semicolon: `java -cp "lib/*;bin" Main`
+  - On **Linux / macOS**: use a colon: `java -cp "lib/*:bin" Main`
 
-GitHub: [RahulSN7](https://github.com/RahulSN7)
+### 2. HTTP Status 500 — `Table 'shopsphere.products' doesn't exist`
+- **Cause:** The `shopsphere` database was created, but schema tables were not imported.
+- **Solution:** Execute `schema-init.sql` non-destructively using MySQL Workbench or run:
+  ```powershell
+  powershell -ExecutionPolicy Bypass -File F:\java_Lab\java_Lab_Project\scripts\init-db.ps1
+  ```
+
+### 3. `DB_PASSWORD` or `DB_USER` Missing Error on Tomcat Startup
+- **Cause:** Tomcat was started from an environment that did not inherit user environment variables.
+- **Solution:** Set permanent variables in `sysdm.cpl` and restart terminal before running `.\startup.bat`, or configure credentials in `F:\java_Lab\apache-tomcat-9.0.121\bin\setenv.bat`.
+
+### 4. Tomcat Port 8080 Conflict
+- **Cause:** A previously running Tomcat instance or another process occupies port 8080.
+- **Safe Solution (Target only the specific PID):**
+  ```powershell
+  $pid8080 = (Get-NetTCPConnection -LocalPort 8080 -State Listen -ErrorAction SilentlyContinue).OwningProcess
+  if ($pid8080) { Stop-Process -Id $pid8080 -Force }
+  ```
+  *(Never use `Stop-Process -Name java -Force` as it terminates IDEs and build tools).*
+
+### 5. `The origin server did not find a current representation for the target resource` (404)
+- **Cause:** Accessing `http://localhost:8080/` without the webapp context path.
+- **Solution:** Always use the full URL: `http://localhost:8080/shopsphere/products`.
+
+---
+
+## 👨‍💻 Repository & Author Information
+
+- **Course:** Advanced Java Programming Laboratory (ADJ Lab)
+- **Repository:** [https://github.com/RahulSN7/java_lab](https://github.com/RahulSN7/java_lab)
+- **Active Branch:** `main`
+- **Author:** Rahul Singh Negi ([@RahulSN7](https://github.com/RahulSN7))
+
+---
