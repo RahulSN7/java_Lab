@@ -3,103 +3,64 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 
-<c:set var="pageTitle" value="Bicycles &amp; Gear Catalog - BikeIsNice" scope="request" />
+<c:set var="pageTitle" value="Bicycles &amp; Cycling Gear Catalog | ShopSphere" scope="request" />
 <jsp:include page="/fragments/header.jsp" />
 <jsp:include page="/fragments/navbar.jsp" />
 
 <main class="py-4">
     <div class="container">
-        <!-- Hero Header -->
+        <!-- Breadcrumb & Header Section -->
         <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 pb-3 border-bottom">
             <div>
-                <h2 class="fw-bold mb-1"><i class="bi bi-bicycle me-2 text-warning"></i>Bicycles & Gear Catalog</h2>
-                <p class="text-muted small mb-0">Explore our performance collection of trail mountain bikes, aerodynamic road racers, commuter e-bikes, gravel explorers, and safety gear.</p>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb small mb-1">
+                        <li class="breadcrumb-item"><a href="<c:url value='/products' />" class="text-decoration-none text-muted">ShopSphere</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Catalog</li>
+                    </ol>
+                </nav>
+                <h2 class="fw-bold mb-1">
+                    <c:choose>
+                        <c:when test="${param.category == '1'}">Mountain Bikes (MTB)</c:when>
+                        <c:when test="${param.category == '2'}">Road &amp; Racing Bikes</c:when>
+                        <c:when test="${param.category == '3'}">Electric Bikes (E-Bikes)</c:when>
+                        <c:when test="${param.category == '4'}">Gravel &amp; Adventure Bikes</c:when>
+                        <c:when test="${param.category == '5'}">Helmets &amp; Pro Cycling Gear</c:when>
+                        <c:when test="${not empty param.q}">Search Results for &ldquo;<c:out value="${param.q}" />&rdquo;</c:when>
+                        <c:otherwise>Complete Bicycle &amp; Gear Collection</c:otherwise>
+                    </c:choose>
+                </h2>
+                <p class="text-muted small mb-0">
+                    <c:choose>
+                        <c:when test="${not empty products}">Showing <strong class="text-dark"><c:out value="${products.size()}" /></strong> verified models in stock</c:when>
+                        <c:otherwise>0 models currently available</c:otherwise>
+                    </c:choose>
+                </p>
             </div>
+
             <!-- Sorting Dropdown -->
             <div class="d-flex align-items-center gap-2 mt-3 mt-md-0">
-                <label for="sortBy" class="small text-secondary fw-semibold text-nowrap">Sort By:</label>
-                <select id="sortBy" class="form-select form-select-sm" onchange="location = this.value;">
-                    <option value="<c:url value='/products?sort=newest' />" ${param.sort == 'newest' ? 'selected' : ''}>Newest First</option>
-                    <option value="<c:url value='/products?sort=price_asc' />" ${param.sort == 'price_asc' ? 'selected' : ''}>Price: Low to High</option>
-                    <option value="<c:url value='/products?sort=price_desc' />" ${param.sort == 'price_desc' ? 'selected' : ''}>Price: High to Low</option>
+                <label for="sortBySelect" class="small text-muted fw-semibold text-nowrap">Sort by:</label>
+                <select id="sortBySelect" class="form-select form-select-sm" style="width: auto;" onchange="location = this.value;">
+                    <option value="<c:url value='/products?sort=newest${not empty param.category ? \"&category=\" += param.category : \"\"}${not empty param.q ? \"&q=\" += param.q : \"\"}' />" 
+                            ${param.sort == 'newest' || empty param.sort ? 'selected' : ''}>Newest First</option>
+                    <option value="<c:url value='/products?sort=price_asc${not empty param.category ? \"&category=\" += param.category : \"\"}${not empty param.q ? \"&q=\" += param.q : \"\"}' />" 
+                            ${param.sort == 'price_asc' ? 'selected' : ''}>Price: Low to High</option>
+                    <option value="<c:url value='/products?sort=price_desc${not empty param.category ? \"&category=\" += param.category : \"\"}${not empty param.q ? \"&q=\" += param.q : \"\"}' />" 
+                            ${param.sort == 'price_desc' ? 'selected' : ''}>Price: High to Low</option>
                 </select>
             </div>
         </div>
 
         <div class="row g-4">
-            <!-- Responsive Sidebar Filter -->
+            <!-- Sidebar Filters -->
             <div class="col-lg-3">
-                <div class="card border-0 shadow-sm rounded-3 p-3 mb-4">
-                    <h6 class="fw-bold mb-3 text-uppercase text-secondary small" style="letter-spacing: 0.5px;">
-                        <i class="bi bi-bicycle text-primary me-2"></i>Bike Categories
-                    </h6>
-                    <div class="list-group list-group-flush small">
-                        <a href="<c:url value='/products' />" 
-                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center ${empty param.category ? 'active fw-bold' : ''}">
-                            All Bikes & Gear
-                            <span class="badge rounded-pill ${empty param.category ? 'bg-light text-dark' : 'bg-secondary'}">All</span>
-                        </a>
-                        <a href="<c:url value='/products?category=1' />" 
-                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center ${param.category == '1' ? 'active fw-bold' : ''}">
-                            Mountain Bikes (MTB)
-                            <span class="badge rounded-pill bg-light text-secondary">Trail</span>
-                        </a>
-                        <a href="<c:url value='/products?category=2' />" 
-                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center ${param.category == '2' ? 'active fw-bold' : ''}">
-                            Road & Racing Bikes
-                            <span class="badge rounded-pill bg-light text-secondary">Speed</span>
-                        </a>
-                        <a href="<c:url value='/products?category=3' />" 
-                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center ${param.category == '3' ? 'active fw-bold' : ''}">
-                            Electric Bikes (E-Bikes)
-                            <span class="badge rounded-pill bg-light text-secondary">750W</span>
-                        </a>
-                        <a href="<c:url value='/products?category=4' />" 
-                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center ${param.category == '4' ? 'active fw-bold' : ''}">
-                            Gravel & Hybrid Bikes
-                            <span class="badge rounded-pill bg-light text-secondary">All-Road</span>
-                        </a>
-                        <a href="<c:url value='/products?category=5' />" 
-                           class="list-group-item list-group-item-action d-flex justify-content-between align-items-center ${param.category == '5' ? 'active fw-bold' : ''}">
-                            Cycling Gear & Helmets
-                            <span class="badge rounded-pill bg-light text-secondary">Gear</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Price Range Filter Form -->
-                <div class="card border-0 shadow-sm rounded-3 p-3 mb-4">
-                    <h6 class="fw-bold mb-3 text-uppercase text-secondary small" style="letter-spacing: 0.5px;">
-                        <i class="bi bi-funnel-fill text-primary me-2"></i>Filter by Price
-                    </h6>
-                    <form method="GET" action="<c:url value='/products' />">
-                        <c:if test="${not empty param.category}">
-                            <input type="hidden" name="category" value="<c:out value='${param.category}' />"/>
-                        </c:if>
-                        <div class="row g-2 mb-3">
-                            <div class="col-6">
-                                <label class="small text-muted">Min ($)</label>
-                                <input type="number" name="minPrice" class="form-control form-control-sm" 
-                                       placeholder="0" value="<c:out value='${param.minPrice}' />" min="0">
-                            </div>
-                            <div class="col-6">
-                                <label class="small text-muted">Max ($)</label>
-                                <input type="number" name="maxPrice" class="form-control form-control-sm" 
-                                       placeholder="1000" value="<c:out value='${param.maxPrice}' />" min="0">
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-outline-primary btn-sm w-100 fw-semibold">
-                            Apply Filter
-                        </button>
-                    </form>
-                </div>
+                <jsp:include page="/fragments/sidebar.jsp" />
             </div>
 
-            <!-- Dynamic Product Listing Grid -->
+            <!-- Product Grid -->
             <div class="col-lg-9">
                 <c:choose>
                     <c:when test="${not empty products}">
-                        <!-- Responsive Product Grid using custom productCard.tag -->
                         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
                             <c:forEach items="${products}" var="product">
                                 <div class="col">
@@ -107,15 +68,34 @@
                                 </div>
                             </c:forEach>
                         </div>
+
+                        <!-- Pagination Controls -->
+                        <nav aria-label="Catalog pagination" class="mt-5">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item ${param.page le 1 || empty param.page ? 'disabled' : ''}">
+                                    <a class="page-link" href="<c:url value='/products?page=${(param.page != null ? param.page : 1) - 1}${not empty param.category ? \"&category=\" += param.category : \"\"}${not empty param.sort ? \"&sort=\" += param.sort : \"\"}' />">
+                                        <i class="bi bi-chevron-left me-1"></i> Previous
+                                    </a>
+                                </li>
+                                <li class="page-item active">
+                                    <span class="page-link"><c:out value="${param.page != null ? param.page : 1}" /></span>
+                                </li>
+                                <li class="page-item">
+                                    <a class="page-link" href="<c:url value='/products?page=${(param.page != null ? param.page : 1) + 1}${not empty param.category ? \"&category=\" += param.category : \"\"}${not empty param.sort ? \"&sort=\" += param.sort : \"\"}' />">
+                                        Next <i class="bi bi-chevron-right ms-1"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
                     </c:when>
                     <c:otherwise>
                         <!-- Empty State -->
-                        <div class="card border-0 shadow-sm rounded-3 p-5 text-center">
-                            <i class="bi bi-search fs-1 text-muted mb-3"></i>
-                            <h4 class="fw-bold">No Products Found</h4>
-                            <p class="text-muted">No items matched your current filter or search criteria.</p>
+                        <div class="card border-0 shadow-sm rounded-4 p-5 text-center bg-white">
+                            <i class="bi bi-search text-muted mb-3" style="font-size: 3rem;"></i>
+                            <h4 class="fw-bold mb-2">No Products Matched Your Criteria</h4>
+                            <p class="text-muted mb-4">Try removing price filters or searching for another bike category.</p>
                             <div>
-                                <a href="<c:url value='/products' />" class="btn btn-primary btn-sm px-4">
+                                <a href="<c:url value='/products' />" class="btn btn-outline-primary btn-sm px-4">
                                     Reset Filters
                                 </a>
                             </div>
@@ -128,4 +108,3 @@
 </main>
 
 <jsp:include page="/fragments/footer.jsp" />
-

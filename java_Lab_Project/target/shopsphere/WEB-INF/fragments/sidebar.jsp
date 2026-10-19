@@ -2,82 +2,97 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <aside class="sidebar-wrapper">
-    <!-- Categories Filter -->
-    <div class="sidebar-box shadow-sm mb-4">
-        <h6 class="sidebar-title"><i class="bi bi-bicycle me-2 text-primary"></i>Bike Categories</h6>
-        <div class="list-group list-group-flush small">
+    <!-- Category Navigation Card -->
+    <div class="filter-card">
+        <div class="filter-title">
+            <i class="bi bi-bicycle text-warning fs-5"></i>
+            <span>Bike Categories</span>
+        </div>
+        <div class="d-flex flex-column">
             <a href="<c:url value='/products' />" 
-               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center ${empty param.category ? 'active fw-bold' : ''}">
-                All Bikes & Gear
+               class="category-filter-item ${empty param.category ? 'active' : ''}">
+                <span>All Bikes &amp; Gear</span>
                 <span class="badge rounded-pill ${empty param.category ? 'bg-light text-dark' : 'bg-secondary'}">All</span>
             </a>
             <a href="<c:url value='/products?category=1' />" 
-               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center ${param.category == '1' ? 'active fw-bold' : ''}">
-                Mountain Bikes (MTB)
+               class="category-filter-item ${param.category == '1' ? 'active' : ''}">
+                <span>Mountain (MTB)</span>
                 <span class="badge rounded-pill bg-light text-secondary">Trail</span>
             </a>
             <a href="<c:url value='/products?category=2' />" 
-               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center ${param.category == '2' ? 'active fw-bold' : ''}">
-                Road & Racing Bikes
+               class="category-filter-item ${param.category == '2' ? 'active' : ''}">
+                <span>Road &amp; Racing</span>
                 <span class="badge rounded-pill bg-light text-secondary">Speed</span>
             </a>
             <a href="<c:url value='/products?category=3' />" 
-               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center ${param.category == '3' ? 'active fw-bold' : ''}">
-                Electric Bikes (E-Bikes)
+               class="category-filter-item ${param.category == '3' ? 'active' : ''}">
+                <span>Electric (E-Bikes)</span>
                 <span class="badge rounded-pill bg-light text-secondary">750W</span>
             </a>
             <a href="<c:url value='/products?category=4' />" 
-               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center ${param.category == '4' ? 'active fw-bold' : ''}">
-                Gravel & Hybrid Bikes
+               class="category-filter-item ${param.category == '4' ? 'active' : ''}">
+                <span>Gravel &amp; Hybrid</span>
                 <span class="badge rounded-pill bg-light text-secondary">All-Road</span>
             </a>
             <a href="<c:url value='/products?category=5' />" 
-               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center ${param.category == '5' ? 'active fw-bold' : ''}">
-                Cycling Gear & Helmets
+               class="category-filter-item ${param.category == '5' ? 'active' : ''}">
+                <span>Gear &amp; Helmets</span>
                 <span class="badge rounded-pill bg-light text-secondary">Gear</span>
             </a>
         </div>
     </div>
 
-    <!-- Filter Options -->
-    <div class="sidebar-box shadow-sm mb-4">
-        <h6 class="sidebar-title"><i class="bi bi-funnel me-2 text-primary"></i>Refine Search</h6>
+    <!-- Price Range Filter Card -->
+    <div class="filter-card">
+        <div class="filter-title">
+            <i class="bi bi-funnel text-warning fs-5"></i>
+            <span>Filter by Price</span>
+        </div>
         <form method="GET" action="<c:url value='/products' />">
             <c:if test="${not empty param.category}">
                 <input type="hidden" name="category" value="<c:out value='${param.category}' />"/>
             </c:if>
+            <c:if test="${not empty param.q}">
+                <input type="hidden" name="q" value="<c:out value='${param.q}' />"/>
+            </c:if>
 
             <div class="mb-3">
-                <label class="form-label small fw-semibold text-secondary">Price Range</label>
-                <div class="d-flex gap-2 align-items-center">
-                    <input type="number" name="minPrice" class="form-control form-control-sm" placeholder="Min" 
-                           value="<c:out value='${param.minPrice}' />" min="0">
-                    <span class="text-muted">-</span>
-                    <input type="number" name="maxPrice" class="form-control form-control-sm" placeholder="Max" 
-                           value="<c:out value='${param.maxPrice}' />" min="0">
+                <label class="form-label text-muted small">Price Range (USD)</label>
+                <div class="d-flex align-items-center gap-2">
+                    <input type="number" name="minPrice" class="form-control form-control-sm" 
+                           placeholder="Min $" value="<c:out value='${param.minPrice}' />" min="0">
+                    <span class="text-muted">&ndash;</span>
+                    <input type="number" name="maxPrice" class="form-control form-control-sm" 
+                           placeholder="Max $" value="<c:out value='${param.maxPrice}' />" min="0">
                 </div>
             </div>
 
-            <div class="form-check form-switch mb-3">
-                <input class="form-check-input" type="checkbox" id="inStockOnly" name="inStock" value="true"
-                       ${param.inStock == 'true' ? 'checked' : ''}>
-                <label class="form-check-label small" for="inStockOnly">In Stock Only</label>
-            </div>
-
-            <button type="submit" class="btn btn-outline-primary btn-sm w-100">Apply Filters</button>
+            <button type="submit" class="btn btn-outline-primary btn-sm w-100 fw-semibold">
+                <i class="bi bi-funnel-fill me-1"></i> Apply Price
+            </button>
+            <c:if test="${not empty param.minPrice || not empty param.maxPrice}">
+                <a href="<c:url value='/products${not empty param.category ? \"?category=\" += param.category : \"\"}' />" 
+                   class="btn btn-link btn-sm w-100 text-muted mt-1 text-decoration-none">
+                    Clear Price Filter
+                </a>
+            </c:if>
         </form>
     </div>
 
-    <!-- Promotional Coupon Callout -->
-    <div class="card border-0 bg-dark text-white shadow-sm rounded-3 p-3">
+    <!-- Active Promo Voucher Callout -->
+    <div class="card border-0 bg-dark text-white rounded-3 p-3 shadow-sm">
         <div class="d-flex align-items-center gap-2 mb-2">
-            <i class="bi bi-ticket-perforated-fill fs-4 text-warning"></i>
-            <h6 class="mb-0 fw-bold">Rider Promo!</h6>
+            <i class="bi bi-ticket-perforated-fill text-warning fs-4"></i>
+            <h6 class="mb-0 fw-bold text-white">Rider Promo Voucher</h6>
         </div>
-        <p class="small text-white-50 mb-2">Use voucher code below at checkout for 10% off bikes & gear:</p>
-        <div class="bg-warning text-dark py-1 px-2 rounded text-center font-monospace fw-bold small">
+        <p class="small text-white-50 mb-2">
+            Apply this voucher code at checkout to receive 10% off your entire bicycle or gear order:
+        </p>
+        <div class="bg-warning text-dark py-1 px-3 rounded text-center font-monospace fw-bold small">
             BIKE10
+        </div>
+        <div class="small text-white-50 text-center mt-2" style="font-size: 0.72rem;">
+            Or use <strong>RIDE50</strong> for $50 off orders over $500
         </div>
     </div>
 </aside>
-

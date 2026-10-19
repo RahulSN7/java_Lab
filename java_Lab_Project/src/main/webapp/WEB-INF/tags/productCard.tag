@@ -1,97 +1,93 @@
-<%@ tag language="java" pageEncoding="UTF-8" description="Reusable Product Card UI Component" %>
+<%@ tag language="java" pageEncoding="UTF-8" description="Reusable ShopSphere Product Card Component" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="tags" tagdir="/WEB-INF/tags" %>
 <%@ attribute name="product" type="com.shopsphere.model.Product" required="true" description="Product entity" %>
 
-<div class="card h-100 product-card shadow-sm border-0 rounded-3 overflow-hidden position-relative">
-    <!-- Image & Discount Badge -->
-    <div class="product-image-wrapper position-relative text-center p-4 bg-light" style="height: 210px; display: flex; align-items: center; justify-content: center;">
-        <i class="bi bi-bicycle text-primary opacity-75" style="font-size: 5.5rem;"></i>
+<div class="product-card">
+    <!-- Image & Status Badges -->
+    <div class="product-image-wrapper">
+        <i class="bi bi-bicycle product-illustration-icon"></i>
 
-        <!-- Calculated Discount Badge -->
+        <!-- Discount Percentage Badge -->
         <c:if test="${not empty product.salePrice && product.salePrice gt 0 && product.salePrice lt product.price}">
             <c:set var="savings" value="${((product.price - product.salePrice) / product.price) * 100}" />
             <fmt:formatNumber var="discountPercent" value="${savings}" maxFractionDigits="0" />
-            <span class="badge bg-danger position-absolute top-0 start-0 m-3 px-2 py-1 shadow-sm">
+            <span class="product-badge-sale">
                 -<c:out value="${discountPercent}" />% OFF
             </span>
         </c:if>
 
-        <!-- Stock Status Pill -->
+        <!-- Stock Availability Badge -->
         <c:choose>
             <c:when test="${product.stockQuantity gt 0}">
-                <span class="badge bg-success position-absolute top-0 end-0 m-3 px-2 py-1">
-                    In Stock (<c:out value="${product.stockQuantity}" />)
+                <span class="product-badge-stock product-badge-in-stock">
+                    <i class="bi bi-check-circle-fill me-1"></i>In Stock
                 </span>
             </c:when>
             <c:otherwise>
-                <span class="badge bg-secondary position-absolute top-0 end-0 m-3 px-2 py-1">
-                    Out of Stock
+                <span class="product-badge-stock product-badge-out-stock">
+                    Sold Out
                 </span>
             </c:otherwise>
         </c:choose>
     </div>
 
-    <!-- Product Card Body -->
-    <div class="card-body d-flex flex-column p-3">
-        <!-- Brand / SKU -->
-        <div class="d-flex justify-content-between align-items-center mb-1">
-            <span class="text-uppercase text-muted fw-bold small" style="font-size: 0.72rem; letter-spacing: 0.5px;">
-                Brand: BikeIsNice
-            </span>
-            <small class="text-muted font-monospace" style="font-size: 0.72rem;">
-                <c:out value="${product.sku}" />
-            </small>
+    <!-- Product Details Body -->
+    <div class="product-body">
+        <div class="product-meta-header">
+            <span class="product-category-tag">ShopSphere Pro</span>
+            <span class="product-sku-tag"><c:out value="${product.sku}" /></span>
         </div>
 
-        <!-- Product Name -->
-        <h6 class="card-title fw-bold mb-2">
-            <a href="<c:url value='/products/${product.productId}' />" class="text-decoration-none text-dark hover-primary" 
-               title="<c:out value='${product.name}' />">
+        <h5 class="product-title">
+            <a href="<c:url value='/products/${product.productId}' />">
                 <c:out value="${product.name}" />
             </a>
-        </h6>
+        </h5>
 
-        <!-- Reusable Star Rating Tag -->
+        <p class="product-desc">
+            <c:out value="${product.description != null ? product.description : 'Precision engineered pro bicycle built for speed, stability, and rugged all-terrain endurance.'}" />
+        </p>
+
+        <!-- Rating component -->
         <div class="mb-2">
-            <tags:rating value="4.5" max="5" />
+            <tags:rating value="4.8" max="5" />
         </div>
 
-        <!-- Price Display -->
-        <div class="mt-auto pt-2">
-            <div class="d-flex align-items-baseline gap-2 mb-2">
+        <!-- Pricing & Add to Cart -->
+        <div class="product-pricing-wrap">
+            <div class="price-display">
                 <c:choose>
                     <c:when test="${not empty product.salePrice && product.salePrice gt 0 && product.salePrice lt product.price}">
-                        <span class="fs-5 fw-bold text-danger">$<c:out value="${product.salePrice}" /></span>
-                        <span class="text-decoration-line-through text-muted small">$<c:out value="${product.price}" /></span>
+                        <span class="price-current sale-price">$<c:out value="${product.salePrice}" /></span>
+                        <span class="price-original">$<c:out value="${product.price}" /></span>
                     </c:when>
                     <c:otherwise>
-                        <span class="fs-5 fw-bold text-dark">$<c:out value="${product.price}" /></span>
+                        <span class="price-current">$<c:out value="${product.price}" /></span>
                     </c:otherwise>
                 </c:choose>
             </div>
 
-            <%-- 'Add to Cart' Button (Renders ONLY if product stock > 0 using JSTL c:if) --%>
-            <c:if test="${product.stockQuantity gt 0}">
-                <form method="POST" action="<c:url value='/cart' />" class="d-grid">
-                    <input type="hidden" name="action" value="add"/>
-                    <input type="hidden" name="productId" value="<c:out value='${product.productId}' />"/>
-                    <input type="hidden" name="quantity" value="1"/>
-                    <button type="submit" class="btn btn-primary btn-sm fw-semibold d-flex align-items-center justify-content-center gap-2">
-                        <i class="bi bi-cart-plus"></i> Add to Cart
-                    </button>
-                </form>
-            </c:if>
-
-            <c:if test="${product.stockQuantity le 0}">
-                <div class="d-grid">
-                    <button type="button" class="btn btn-outline-secondary btn-sm" disabled>
-                        <i class="bi bi-x-circle me-1"></i> Sold Out
-                    </button>
-                </div>
-            </c:if>
+            <c:choose>
+                <c:when test="${product.stockQuantity gt 0}">
+                    <form method="POST" action="<c:url value='/cart' />" class="d-grid">
+                        <input type="hidden" name="action" value="add"/>
+                        <input type="hidden" name="productId" value="<c:out value='${product.productId}' />"/>
+                        <input type="hidden" name="quantity" value="1"/>
+                        <button type="submit" class="btn btn-primary btn-sm">
+                            <i class="bi bi-cart-plus me-1"></i> Add to Cart
+                        </button>
+                    </form>
+                </c:when>
+                <c:otherwise>
+                    <div class="d-grid">
+                        <button type="button" class="btn btn-outline-primary btn-sm disabled opacity-50" disabled>
+                            <i class="bi bi-slash-circle me-1"></i> Out of Stock
+                        </button>
+                    </div>
+                </c:otherwise>
+            </c:choose>
         </div>
     </div>
 </div>
-
