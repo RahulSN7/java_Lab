@@ -382,71 +382,129 @@ cp target/servlet-1.0-SNAPSHOT.war ../apache-tomcat-9.0.121/webapps/
 
 ---
 
-## 🧪 Experiment 9 / Capstone: Enterprise Cycling E-Commerce Platform (BikeIsNice)
+# 🚴 Experiment 9 / Capstone: Enterprise Cycling E-Commerce Platform (java_Lab_Project)
 
-### 🎯 Aim & Objective
-To architect and implement an enterprise-grade full-stack Java web application and distributed system (**BikeIsNice** / ShopSphere) synthesizing all Advanced Java concepts: Jakarta Servlets, JSP/JSTL views, custom tags, relational MySQL database with 12 tables, JDBC DAO design pattern, session security filters, native Java Swing desktop administration dashboard, and standalone distributed networking modules (Sockets & RMI).
+## 🎯 Aim & Objective
 
-### 📂 Directory & File Structure
-```
-BikeIsNice/
-├── pom.xml                         # Maven project configuration (Jakarta EE 11)
-├── shopsphere.sql                  # Complete MySQL schema (12 tables + seed data)
-├── test-networking.sh              # Automated test runner for Sockets and RMI
-├── README.md                       # Dedicated detailed documentation
+To architect and implement an enterprise-grade full-stack Java web application and distributed system, **java_Lab_Project (ShopSphere)**, synthesizing advanced Java concepts: Jakarta Servlets, JSP/JSTL views, custom tags, a relational MySQL database, JDBC DAO design pattern, session security filters, a native Java Swing desktop administration dashboard, and standalone distributed networking modules (Sockets and RMI).
+
+## 📂 Directory & File Structure
+
+```text
+java_Lab_Project/
+├── pom.xml                         # Maven project configuration
+├── shopsphere.sql                  # MySQL schema and seed data
+├── test-networking.sh              # Automated Sockets and RMI test runner
+├── README.md                       # Project documentation
 ├── src/main/
 │   ├── java/com/shopsphere/
-│   │   ├── controller/             # Jakarta Servlets (Cart, Checkout, Login, Product, Register)
-│   │   ├── dao/                    # JDBC DAO Layer (PreparedStatements & connection pooling)
-│   │   ├── desktop/                # Native Swing Administration GUI (AdminDashboard, LoginFrame)
-│   │   ├── filter/                 # Security Filters (AdminFilter, AuthenticationFilter)
-│   │   ├── model/                  # Domain POJOs & Entities (implements Serializable)
+│   │   ├── controller/             # Jakarta Servlets
+│   │   ├── dao/                    # JDBC Data Access Objects
+│   │   ├── desktop/                # Swing administration GUI
+│   │   ├── filter/                 # Authentication and authorization filters
+│   │   ├── model/                  # Domain models and entities
 │   │   ├── network/
-│   │   │   ├── rmi/                # Java RMI inventory service & client
-│   │   │   └── socket/             # Low-level TCP Socket inventory server & client
-│   │   ├── service/                # Business logic & zero-trust server checkout engine
-│   │   └── util/                   # DBConnection & PBKDF2 Password Hashing
+│   │   │   ├── rmi/                # Java RMI inventory service and client
+│   │   │   └── socket/             # TCP Socket inventory server and client
+│   │   ├── service/                # Business logic and checkout processing
+│   │   └── util/                   # Database connection and utility classes
 │   └── webapp/
-│       ├── index.jsp               # Storefront portal & catalog router
-│       ├── products.jsp            # Product catalog with category filters
-│       ├── cart.jsp                # Interactive shopping cart
-│       ├── checkout.jsp            # Secure checkout workflow
-│       ├── admin/                  # Protected manager views (dashboard, orders)
-│       └── WEB-INF/tags/           # Custom reusable JSP tags (productCard, rating)
+│       ├── index.jsp               # Storefront homepage
+│       ├── products.jsp            # Product catalog
+│       ├── cart.jsp                # Shopping cart
+│       ├── checkout.jsp             # Checkout workflow
+│       ├── admin/                  # Administration views
+│       └── WEB-INF/tags/           # Reusable custom JSP tags
 └── target/
-    └── shopsphere.war              # Packaged ready-to-deploy Web Application Archive
+    └── shopsphere.war              # Packaged web application archive
 ```
 
-### 💡 Enterprise Features & Advanced Java Highlights
-1. **Full-Stack Web Architecture**: Jakarta Servlet 6.1, JSP 3.1, JSTL 3.0, and Bootstrap 5.3.
-2. **Zero-Trust Pricing & Checkout Engine**: Computes subtotals, taxes, and promotional coupons on the server to prevent client-side price tampering.
-3. **Database & Persistence**: 12 relational MySQL tables (`users`, `products`, `orders`, `order_items`, `cart_items`, `categories`, `coupons`, `payments`, etc.) utilizing pure `PreparedStatement` queries.
-4. **Desktop Administrator GUI**: Java Swing desktop app with native OS Pluggable Look and Feel (PLAF), `JTabbedPane`, and `JTable` inside `JScrollPane` for real-time inventory and order management.
-5. **Distributed Networking Modules**:
-   - **TCP Sockets**: `SocketInventoryServer` & `SocketInventoryClient` implementing a custom inventory protocol.
-   - **Java RMI**: `RmiInventoryServer` & `RmiInventoryClient` with remote procedure calls for inventory status updates.
+## 💡 Enterprise Features & Advanced Java Highlights
 
-### 🚀 Running the Capstone Platform
+### 1. Full-Stack Web Architecture
+
+Uses Java web technologies, including Jakarta Servlets, JSP/JSTL, and Bootstrap for building a web-based shopping experience.
+
+### 2. Server-Side Pricing and Checkout
+
+Processes product prices, subtotals, taxes, and coupon discounts on the server to reduce the risk of client-side price manipulation.
+
+### 3. Database and Persistence
+
+Uses MySQL for relational data storage and JDBC for database operations. SQL queries should use `PreparedStatement` to help protect against SQL injection.
+
+### 4. Desktop Administrator GUI
+
+Includes a Java Swing desktop administration interface using components such as `JTabbedPane`, `JTable`, and `JScrollPane` for presenting administrative information.
+
+### 5. Distributed Networking Modules
+
+* **TCP Sockets:** Inventory communication through socket-based server and client modules.
+* **Java RMI:** Remote inventory operations through a Java Remote Method Invocation service and client.
+
+## 🚀 Running the Capstone Platform
+
+### Prerequisites
+
+Ensure you have the following installed:
+
+* Java Development Kit (JDK)
+* Apache Maven
+* MySQL Server
+* Apache Tomcat or another compatible Jakarta Servlet container
+
+### Step 1: Navigate to the Project Directory
+
 ```bash
-cd BikeIsNice
-
-# Step 1: Import Database Schema & Seed Data
-mysql -u root -ppassword < shopsphere.sql
-
-# Step 2: Build the WAR package
-mvn clean package
-
-# Step 3: Run the Swing Desktop Admin Application
-java -cp target/classes com.shopsphere.desktop.LoginFrame
-
-# Step 4: Run the Standalone Networking Test Suite (Sockets + RMI)
-./test-networking.sh
+cd java_Lab_Project
 ```
 
----
+### Step 2: Import the Database
 
-## 👨‍💻 Repository Author
+Update the database username and password according to your local MySQL configuration.
 
-- **Author**: Sahil Sepat
-- **Course**: Advanced Java Laboratory (ADJ Lab)
-- **Repository**: [`adjrepo`](https://github.com/sahil1205-jat/adj)
+```bash
+mysql -u root -p < shopsphere.sql
+```
+
+Enter your MySQL password when prompted.
+
+### Step 3: Build the Web Application
+
+```bash
+mvn clean package
+```
+
+If the build succeeds, check the `target/` directory for the generated WAR file.
+
+### Step 4: Run the Swing Desktop Administration Application
+
+```bash
+java -cp target/classes com.shopsphere.desktop.LoginFrame
+```
+
+Make sure the project has been compiled and the required database configuration is available.
+
+### Step 5: Run the Networking Test Suite
+
+If the script is available and executable in your environment, run:
+
+```bash
+bash test-networking.sh
+```
+
+Follow the instructions printed by the script if additional configuration is required.
+
+## 📌 Project Information
+
+* **Project Name:** java_Lab_Project
+* **Application Name:** ShopSphere
+* **Author:** Rahul Singh Negi
+* **Course:** Advanced Java Laboratory (ADJ Lab)
+* **Repository:** [java_lab](https://github.com/RahulSN7/java_lab)
+
+## 👨‍💻 Author
+
+**Rahul Singh Negi**
+
+GitHub: [RahulSN7](https://github.com/RahulSN7)
