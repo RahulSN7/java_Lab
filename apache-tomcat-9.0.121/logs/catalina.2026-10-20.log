@@ -1,0 +1,152 @@
+20-Oct-2026 01:52:55.933 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/9.0.121
+20-Oct-2026 01:52:55.936 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Aug 12 2026 19:38:16 UTC
+20-Oct-2026 01:52:55.937 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 9.0.121.0
+20-Oct-2026 01:52:55.937 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 10
+20-Oct-2026 01:52:55.937 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+20-Oct-2026 01:52:55.937 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+20-Oct-2026 01:52:55.938 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\latest\jdk-26
+20-Oct-2026 01:52:55.938 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           26.0.2.1+1-7
+20-Oct-2026 01:52:55.938 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+20-Oct-2026 01:52:55.938 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         F:\java_Lab\apache-tomcat-9.0.121
+20-Oct-2026 01:52:55.938 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         F:\java_Lab\apache-tomcat-9.0.121
+20-Oct-2026 01:52:55.956 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED
+20-Oct-2026 01:52:55.956 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang.invoke=ALL-UNNAMED
+20-Oct-2026 01:52:55.956 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+20-Oct-2026 01:52:55.956 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED
+20-Oct-2026 01:52:55.957 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED
+20-Oct-2026 01:52:55.961 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+20-Oct-2026 01:52:55.962 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+20-Oct-2026 01:52:55.963 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=F:\java_Lab\apache-tomcat-9.0.121\conf\logging.properties
+20-Oct-2026 01:52:55.967 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+20-Oct-2026 01:52:55.967 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+20-Oct-2026 01:52:55.967 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+20-Oct-2026 01:52:55.967 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dsun.io.useCanonCaches=false
+20-Oct-2026 01:52:55.968 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+20-Oct-2026 01:52:55.968 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=F:\java_Lab\apache-tomcat-9.0.121
+20-Oct-2026 01:52:55.969 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=F:\java_Lab\apache-tomcat-9.0.121
+20-Oct-2026 01:52:55.969 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=F:\java_Lab\apache-tomcat-9.0.121\temp
+20-Oct-2026 01:52:55.983 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The Apache Tomcat Native library which allows using OpenSSL was not found on the java.library.path: [C:\Program Files\Java\latest\jdk-26\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Python314\Scripts\;C:\Python314\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk-26.0.2\bin;F:\Git\cmd;C:\Program Files\Apache\Maven\apache-maven-3.10.0\bin;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;C:\msys64\ucrt64\bin;C:\Users\DELL\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\DELL\AppData\Local\PowerToys\DSCModules\;C:\Users\DELL\AppData\Local\Python\bin;C:\Users\DELL\AppData\Roaming\npm;F:\Antigravity IDE\bin;C:\Users\DELL\AppData\Local\Programs\Antigravity IDE\bin;.]
+20-Oct-2026 01:52:56.324 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+20-Oct-2026 01:52:56.352 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [656] milliseconds
+20-Oct-2026 01:52:56.414 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+20-Oct-2026 01:52:56.415 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/9.0.121]
+20-Oct-2026 01:52:56.453 INFO [main] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive [F:\java_Lab\apache-tomcat-9.0.121\webapps\servlet-1.0-SNAPSHOT.war]
+20-Oct-2026 01:52:56.474 INFO [main] org.apache.catalina.startup.ExpandWar.expand An expanded directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\servlet-1.0-SNAPSHOT] was found with a last modified time that did not match the associated WAR. It will be deleted.
+20-Oct-2026 01:52:56.741 INFO [main] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive [F:\java_Lab\apache-tomcat-9.0.121\webapps\servlet-1.0-SNAPSHOT.war] has finished in [285] ms
+20-Oct-2026 01:52:56.743 INFO [main] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive [F:\java_Lab\apache-tomcat-9.0.121\webapps\shopsphere.war]
+20-Oct-2026 01:52:58.087 INFO [main] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+20-Oct-2026 01:52:58.119 INFO [main] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive [F:\java_Lab\apache-tomcat-9.0.121\webapps\shopsphere.war] has finished in [1,376] ms
+20-Oct-2026 01:52:58.120 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\docs]
+20-Oct-2026 01:52:58.157 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\docs] has finished in [37] ms
+20-Oct-2026 01:52:58.158 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\examples]
+20-Oct-2026 01:52:58.437 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\examples] has finished in [279] ms
+20-Oct-2026 01:52:58.438 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\host-manager]
+20-Oct-2026 01:52:58.470 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\host-manager] has finished in [32] ms
+20-Oct-2026 01:52:58.472 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\manager]
+20-Oct-2026 01:52:58.502 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\manager] has finished in [30] ms
+20-Oct-2026 01:52:58.502 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\myWebapp]
+20-Oct-2026 01:52:58.519 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\myWebapp] has finished in [17] ms
+20-Oct-2026 01:52:58.519 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\ROOT]
+20-Oct-2026 01:52:58.543 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\ROOT] has finished in [24] ms
+20-Oct-2026 01:52:58.548 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+20-Oct-2026 01:52:58.578 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [2217] milliseconds
+20-Oct-2026 01:59:50.846 INFO [main] org.apache.catalina.core.StandardServer.await A valid shutdown command was received via the shutdown port. Stopping the Server instance.
+20-Oct-2026 01:59:50.847 INFO [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["http-nio-8080"]
+20-Oct-2026 01:59:50.862 INFO [main] org.apache.catalina.core.StandardService.stopInternal Stopping service [Catalina]
+20-Oct-2026 01:59:50.893 WARNING [main] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [shopsphere] registered the JDBC driver [com.mysql.cj.jdbc.Driver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+20-Oct-2026 01:59:50.894 WARNING [main] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [shopsphere] appears to have started a thread named [mysql-cj-abandoned-connection-cleanup] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/java.lang.Object.wait0(Native Method)
+ java.base/java.lang.Object.wait(Object.java:391)
+ java.base/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:123)
+ java.base/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:201)
+ com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:84)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+ java.base/java.lang.Thread.run(Thread.java:1516)
+20-Oct-2026 01:59:50.901 INFO [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
+20-Oct-2026 01:59:50.907 INFO [mysql-cj-abandoned-connection-cleanup] org.apache.catalina.loader.WebappClassLoaderBase.checkStateForResourceLoading Illegal access: this web application instance has been stopped already. Could not load []. The following stack trace is thrown for debugging purposes as well as to attempt to terminate the thread which caused the illegal access.
+	java.lang.IllegalStateException: Illegal access: this web application instance has been stopped already. Could not load []. The following stack trace is thrown for debugging purposes as well as to attempt to terminate the thread which caused the illegal access.
+		at org.apache.catalina.loader.WebappClassLoaderBase.checkStateForResourceLoading(WebappClassLoaderBase.java:1474)
+		at org.apache.catalina.loader.WebappClassLoaderBase.getResource(WebappClassLoaderBase.java:1077)
+		at com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.checkThreadContextClassLoader(AbandonedConnectionCleanupThread.java:116)
+		at com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:83)
+		at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+		at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+		at java.base/java.lang.Thread.run(Thread.java:1516)
+20-Oct-2026 01:59:50.909 INFO [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]
+20-Oct-2026 02:01:10.815 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/9.0.121
+20-Oct-2026 02:01:10.818 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Aug 12 2026 19:38:16 UTC
+20-Oct-2026 02:01:10.818 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 9.0.121.0
+20-Oct-2026 02:01:10.818 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 10
+20-Oct-2026 02:01:10.818 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+20-Oct-2026 02:01:10.818 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+20-Oct-2026 02:01:10.819 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\latest\jdk-26
+20-Oct-2026 02:01:10.819 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           26.0.2.1+1-7
+20-Oct-2026 02:01:10.819 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+20-Oct-2026 02:01:10.819 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         F:\java_Lab\apache-tomcat-9.0.121
+20-Oct-2026 02:01:10.820 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         F:\java_Lab\apache-tomcat-9.0.121
+20-Oct-2026 02:01:10.826 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang=ALL-UNNAMED
+20-Oct-2026 02:01:10.826 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang.invoke=ALL-UNNAMED
+20-Oct-2026 02:01:10.826 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.lang.reflect=ALL-UNNAMED
+20-Oct-2026 02:01:10.826 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.io=ALL-UNNAMED
+20-Oct-2026 02:01:10.827 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util=ALL-UNNAMED
+20-Oct-2026 02:01:10.827 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.base/java.util.concurrent=ALL-UNNAMED
+20-Oct-2026 02:01:10.828 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: --add-opens=java.rmi/sun.rmi.transport=ALL-UNNAMED
+20-Oct-2026 02:01:10.828 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=F:\java_Lab\apache-tomcat-9.0.121\conf\logging.properties
+20-Oct-2026 02:01:10.829 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+20-Oct-2026 02:01:10.829 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+20-Oct-2026 02:01:10.830 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+20-Oct-2026 02:01:10.830 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dsun.io.useCanonCaches=false
+20-Oct-2026 02:01:10.831 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+20-Oct-2026 02:01:10.834 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=F:\java_Lab\apache-tomcat-9.0.121
+20-Oct-2026 02:01:10.838 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=F:\java_Lab\apache-tomcat-9.0.121
+20-Oct-2026 02:01:10.839 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=F:\java_Lab\apache-tomcat-9.0.121\temp
+20-Oct-2026 02:01:10.851 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The Apache Tomcat Native library which allows using OpenSSL was not found on the java.library.path: [C:\Program Files\Java\latest\jdk-26\bin;C:\Windows\Sun\Java\bin;C:\Windows\system32;C:\Windows;C:\Python314\Scripts\;C:\Python314\;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk-26.0.2\bin;F:\Git\cmd;C:\Program Files\Apache\Maven\apache-maven-3.10.0\bin;C:\Users\DELL\AppData\Local\Microsoft\WindowsApps;C:\msys64\ucrt64\bin;C:\Users\DELL\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\DELL\AppData\Local\PowerToys\DSCModules\;C:\Users\DELL\AppData\Local\Python\bin;C:\Users\DELL\AppData\Roaming\npm;F:\Antigravity IDE\bin;C:\Users\DELL\AppData\Local\Programs\Antigravity IDE\bin;.]
+20-Oct-2026 02:01:11.117 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+20-Oct-2026 02:01:11.141 INFO [main] org.apache.catalina.startup.Catalina.load Server initialization in [479] milliseconds
+20-Oct-2026 02:01:11.188 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+20-Oct-2026 02:01:11.189 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/9.0.121]
+20-Oct-2026 02:01:11.211 INFO [main] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive [F:\java_Lab\apache-tomcat-9.0.121\webapps\servlet-1.0-SNAPSHOT.war]
+20-Oct-2026 02:01:11.464 INFO [main] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive [F:\java_Lab\apache-tomcat-9.0.121\webapps\servlet-1.0-SNAPSHOT.war] has finished in [251] ms
+20-Oct-2026 02:01:11.465 INFO [main] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive [F:\java_Lab\apache-tomcat-9.0.121\webapps\shopsphere.war]
+20-Oct-2026 02:01:12.036 INFO [main] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+20-Oct-2026 02:01:12.054 INFO [main] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive [F:\java_Lab\apache-tomcat-9.0.121\webapps\shopsphere.war] has finished in [589] ms
+20-Oct-2026 02:01:12.056 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\docs]
+20-Oct-2026 02:01:12.077 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\docs] has finished in [21] ms
+20-Oct-2026 02:01:12.077 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\examples]
+20-Oct-2026 02:01:12.296 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\examples] has finished in [219] ms
+20-Oct-2026 02:01:12.296 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\host-manager]
+20-Oct-2026 02:01:12.333 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\host-manager] has finished in [36] ms
+20-Oct-2026 02:01:12.334 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\manager]
+20-Oct-2026 02:01:12.360 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\manager] has finished in [26] ms
+20-Oct-2026 02:01:12.360 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\myWebapp]
+20-Oct-2026 02:01:12.376 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\myWebapp] has finished in [16] ms
+20-Oct-2026 02:01:12.376 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\ROOT]
+20-Oct-2026 02:01:12.393 INFO [main] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [F:\java_Lab\apache-tomcat-9.0.121\webapps\ROOT] has finished in [17] ms
+20-Oct-2026 02:01:12.397 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+20-Oct-2026 02:01:12.423 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in [1279] milliseconds
+20-Oct-2026 03:04:30.634 INFO [Catalina-utility-1] org.apache.catalina.startup.HostConfig.undeploy Undeploying context [/shopsphere]
+20-Oct-2026 03:04:31.164 WARNING [Catalina-utility-1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [shopsphere] registered the JDBC driver [com.mysql.cj.jdbc.Driver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+20-Oct-2026 03:04:31.181 WARNING [Catalina-utility-1] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesThreads The web application [shopsphere] appears to have started a thread named [mysql-cj-abandoned-connection-cleanup] but has failed to stop it. This is very likely to create a memory leak. Stack trace of thread:
+ java.base/java.lang.Object.wait0(Native Method)
+ java.base/java.lang.Object.wait(Object.java:391)
+ java.base/java.lang.ref.ReferenceQueue.remove0(ReferenceQueue.java:123)
+ java.base/java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:201)
+ com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:84)
+ java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+ java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+ java.base/java.lang.Thread.run(Thread.java:1516)
+20-Oct-2026 03:04:31.358 INFO [Catalina-utility-1] org.apache.catalina.startup.HostConfig.deployWAR Deploying web application archive [F:\java_Lab\apache-tomcat-9.0.121\webapps\shopsphere.war]
+20-Oct-2026 03:04:33.298 INFO [Catalina-utility-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+20-Oct-2026 03:04:33.314 INFO [Catalina-utility-1] com.shopsphere.listener.DatabaseInitializerListener.contextInitialized ShopSphere: Validating database connection and schema integrity...
+20-Oct-2026 03:04:33.731 INFO [Catalina-utility-1] com.shopsphere.listener.DatabaseInitializerListener.contextInitialized ShopSphere: Database schema validated successfully. All 12 required tables are present in 'shopsphere'.
+20-Oct-2026 03:04:33.744 INFO [Catalina-utility-1] org.apache.catalina.startup.HostConfig.deployWAR Deployment of web application archive [F:\java_Lab\apache-tomcat-9.0.121\webapps\shopsphere.war] has finished in [2,386] ms
+20-Oct-2026 03:04:34.791 INFO [mysql-cj-abandoned-connection-cleanup] org.apache.catalina.loader.WebappClassLoaderBase.checkStateForResourceLoading Illegal access: this web application instance has been stopped already. Could not load []. The following stack trace is thrown for debugging purposes as well as to attempt to terminate the thread which caused the illegal access.
+	java.lang.IllegalStateException: Illegal access: this web application instance has been stopped already. Could not load []. The following stack trace is thrown for debugging purposes as well as to attempt to terminate the thread which caused the illegal access.
+		at org.apache.catalina.loader.WebappClassLoaderBase.checkStateForResourceLoading(WebappClassLoaderBase.java:1474)
+		at org.apache.catalina.loader.WebappClassLoaderBase.getResource(WebappClassLoaderBase.java:1077)
+		at com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.checkThreadContextClassLoader(AbandonedConnectionCleanupThread.java:116)
+		at com.mysql.cj.jdbc.AbandonedConnectionCleanupThread.run(AbandonedConnectionCleanupThread.java:83)
+		at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1090)
+		at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:614)
+		at java.base/java.lang.Thread.run(Thread.java:1516)

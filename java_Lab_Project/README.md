@@ -1,364 +1,388 @@
-# BikeIsNice - Dedicated Bicycle &amp; Cycling E-Commerce Platform
+# ShopSphere — E-Commerce Web Application
 
-**BikeIsNice** is a specialized Java Enterprise bicycle shopping platform built using **Jakarta EE 11 (Servlet 6.1 / JSP 3.1)**, **MySQL 8.0**, and **Apache Tomcat 11**. Tailored exclusively for cycling enthusiasts and commuters, it features dedicated categories for **Mountain Bikes (MTB)**, **Road &amp; Racing Bikes**, **Electric Bikes (E-Bikes)**, **Gravel &amp; Hybrid Bikes**, and **Cycling Gear &amp; Accessories**. It combines a responsive customer storefront, a secure zero-trust server-side checkout engine, an administrative fleet dashboard, a native **Java Swing desktop application**, and standalone distributed networking modules.
+**ShopSphere** is an enterprise e-commerce application built with **Java 21**, **javax.servlet (Servlet 4.0 / JSP 2.3)**, **MySQL 8.0/8.4**, and **Apache Tomcat 9.0.121**.
+
+> **Windows users:** All commands below are formatted for Windows PowerShell or the Windows Command Prompt unless noted otherwise.
 
 ---
 
 ## Architecture Overview
 
 ```
-                                      +---------------------------------------------+
-                                      |             Client Applications             |
-                                      +---------------------------------------------+
-                                      | 1. Web Browser (Bootstrap 5.3 + JSP Views)  |
-                                      | 2. Desktop GUI (Java Swing PLAF)            |
-                                      | 3. TCP Socket Client / RMI Client           |
-                                      +---------------------------------------------+
-                                                             |
-                                                             v
-+--------------------------------------------------------------------------------------------------------------------+
-|                                                Apache Tomcat 11                                                    |
-|                                                                                                                    |
-|   +------------------------------------+               +-------------------------------------------------------+   |
-|   |          Security Filters          |               |                    Web Controllers                    |   |
-|   | - AuthenticationFilter (Session)   | ------------> | - LoginServlet         - RegisterServlet              |   |
-|   | - AdminFilter (Role: 'ADMIN')      |               | - ProductServlet       - CartServlet                   |   |
-|   +------------------------------------+               | - CheckoutServlet                                     |   |
-|                                                        +-------------------------------------------------------+   |
-|                                                                                    |                               |
-|                                                                                    v                               |
-|                                                        +-------------------------------------------------------+   |
-|                                                        |                     Service Layer                     |   |
-|                                                        | - ProductService       - OrderService                 |   |
-|                                                        | - CheckoutService (Zero-Trust Server Calculations)    |   |
-|                                                        +-------------------------------------------------------+   |
-|                                                                                    |                               |
-|                                                                                    v                               |
-|                                                        +-------------------------------------------------------+   |
-|                                                        |                   DAO & Data Layer                    |   |
-|                                                        | - UserDAO              - ProductDAO                   |   |
-|                                                        | - CartDAO              - OrderDAO                     |   |
-|                                                        | - CouponDAO            - PaymentDAO                   |   |
-|                                                        | (Pure PreparedStatement, Connection Pooling)          |   |
-|                                                        +-------------------------------------------------------+   |
-+--------------------------------------------------------------------------------------------------------------------+
-                                                             |
-                                                             v
-                                      +---------------------------------------------+
-                                      |               MySQL 8.0 RDBMS               |
-                                      |          Database: `shopsphere`             |
-                                      |       (12 Tables, Foreign Keys,             |
-                                      |     Indexes, Seed Products & Users)         |
-                                      +---------------------------------------------+
+                          +---------------------------------------------+
+                          |             Client Applications             |
+                          +---------------------------------------------+
+                          | 1. Web Browser (Bootstrap 5.3 + JSP Views)  |
+                          | 2. Desktop GUI (Java Swing PLAF)            |
+                          +---------------------------------------------+
+                                                 |
+                                                 v
++-------------------------------------------------------------------------------------+
+|                              Apache Tomcat 9.0.121                                  |
+|                                                                                     |
+|  +-----------------------------------+    +---------------------------------------+ |
+|  |       Lifecycle Listeners         |    |          Web Controllers              | |
+|  | - DatabaseInitializerListener     |    | - LoginServlet    - RegisterServlet   | |
+|  |   (Safe Schema Verification)      |    | - ProductServlet  - CartServlet       | |
+|  +-----------------------------------+    | - CheckoutServlet - LogoutServlet     | |
+|                                           +---------------------------------------+ |
+|  +-----------------------------------+                       |                      |
+|  |       Security Filters            |                       v                      |
+|  | - AuthenticationFilter (Session)  |    +---------------------------------------+ |
+|  | - AdminFilter (Role: 'ADMIN')     |    |           Service Layer               | |
+|  +-----------------------------------+    | - ProductService  - OrderService      | |
+|                                           | - CheckoutService (Server Pricing)    | |
+|                                           +---------------------------------------+ |
+|                                                              |                      |
+|                                                              v                      |
+|                                           +---------------------------------------+ |
+|                                           |        DAO & Data Layer               | |
+|                                           | - UserDAO   - ProductDAO              | |
+|                                           | - CartDAO   - OrderDAO                | |
+|                                           | - CouponDAO - PaymentDAO              | |
+|                                           | (PreparedStatement, Connection Pool)  | |
+|                                           +---------------------------------------+ |
++-------------------------------------------------------------------------------------+
+                                                 |
+                                                 v
+                          +---------------------------------------------+
+                          |            MySQL 8.0/8.4 RDBMS              |
+                          |         Database: `shopsphere`              |
+                          |  (12 Tables, Foreign Keys, Seed Data)       |
+                          +---------------------------------------------+
 ```
 
 ---
 
 ## Technology Stack
 
-- **Backend Runtime:** Java 21 (LTS)
-- **Web Specification:** Jakarta EE 11 (Jakarta Servlet 6.1, JSP 3.1, JSTL 3.0)
-- **Application Server:** Apache Tomcat 11.0.x
-- **Database:** MySQL 8.0+ / 8.4 LTS
-- **Build Tool:** Apache Maven 3.9+
-- **Front-End:** HTML5, CSS3, Bootstrap 5.3.3, Bootstrap Icons 1.11, JSP Expression Language (EL), Custom JSP Tags
-- **Desktop Application:** Java Swing with OS-Native Pluggable Look and Feel (PLAF)
-- **Distributed Networking:** Raw TCP Sockets (`java.net.Socket`, `ServerSocket`) & Java RMI (`java.rmi.Remote`)
-- **Cryptography:** PBKDF2 with HMAC-SHA256 (65,536 iterations, 16-byte salt, constant-time verification)
+| Component | Target Version | Description |
+|---|---|---|
+| Java (JDK) | 21 LTS | Compiles with `-release 21` |
+| Servlet API | javax.servlet 4.0.1 | Standard Java EE / Jakarta javax namespace for Tomcat 9 |
+| Application Server | Apache Tomcat 9.0.121 | Servlet 4.0 / JSP 2.3 container |
+| MySQL Server | 8.0+ or 8.4 LTS | InnoDB, `utf8mb4_unicode_ci` |
+| MySQL Connector/J | 8.4.0 | Runtime JDBC driver (`com.mysql.cj.jdbc.Driver`) |
+| Build Tool | Apache Maven 3.9+ | WAR packaging |
+| Connection Pool | HikariCP 5.1.0 | High-performance JDBC connection pooling |
+| JSON Processing | Jackson 2.17.2 | JSON serialization |
+| Password Security | PBKDF2 / jBCrypt 0.4 | Multi-iteration salted password hashing |
+| Unit Testing | JUnit Jupiter 5.10.3 | Unit & integration test framework |
 
 ---
 
 ## Prerequisites
 
-Before starting, ensure the following are installed on your machine:
+Ensure the following tools are installed on your Windows machine:
 
-1. **Java Development Kit (JDK 17 or 21+):**
-   ```bash
-   java -version
-   javac -version
-   ```
-2. **MySQL Server (8.0 or 8.4 LTS):**
-   ```bash
-   mysql --version
-   ```
-3. **Apache Maven (3.9+):**
-   ```bash
-   mvn -version
-   ```
-4. **Apache Tomcat 11 (11.0.x):**
-   Download from [tomcat.apache.org](https://tomcat.apache.org/download-11.cgi).
+### 1. Java Development Kit (JDK 21)
+Verify Java 21 is installed:
+```powershell
+java -version
+javac -version
+```
+Both commands must report version `21`.
+
+### 2. MySQL Server (8.0 or 8.4 LTS)
+Verify the Windows MySQL service is running:
+```powershell
+Get-Service -Name MySQL80
+```
+If `Status` is `Stopped`, start it:
+```powershell
+Start-Service -Name MySQL80
+```
+
+### 3. Apache Maven (3.9+)
+Verify Maven is on your `PATH`:
+```powershell
+mvn -version
+```
+
+### 4. Apache Tomcat 9.0.121
+Extract Tomcat 9.0.121 to a folder such as:
+- `C:\apache-tomcat-9.0.121` or
+- `C:\Users\<YourUser>\Downloads\apache-tomcat-9.0.121\apache-tomcat-9.0.121`
 
 ---
 
-## 1. Database Setup
+## Database Setup & Initialization
 
-The [`shopsphere.sql`](shopsphere.sql) script creates the `shopsphere` database schema, all 12 tables, indexes, constraints, and populates initial demo data (categories, products, coupons, and test user accounts).
+The project provides two SQL scripts in the root directory:
 
-### Step 1: Import Schema & Seed Data
-Run the following command in your terminal:
-```bash
-mysql -u root -ppassword < /home/sahil-sepat/Desktop/ShopSphare/shopsphere.sql
-```
-*(Replace `password` with your actual MySQL root password if different).*
-
-### Step 2: Database Configuration
-The database connection parameters are defined in [`src/main/java/com/shopsphere/util/DBConnection.java`](src/main/java/com/shopsphere/util/DBConnection.java):
-- **JDBC URL:** `jdbc:mysql://localhost:3306/shopsphere?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true`
-- **Default User:** `root`
-- **Default Password:** `password`
-
-You can override these at runtime by setting environment variables:
-```bash
-export DB_URL="jdbc:mysql://localhost:3306/shopsphere?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
-export DB_USER="root"
-export DB_PASSWORD="password"
-```
+| Script | Type | When to Use |
+|---|---|---|
+| [`schema-init.sql`](schema-init.sql) | **Safe / Non-Destructive** | **Recommended for all setups.** Uses `CREATE TABLE IF NOT EXISTS` and `INSERT IGNORE`. Never drops tables or deletes user data. |
+| [`shopsphere.sql`](shopsphere.sql) | **Destructive Reset** | Contains `DROP TABLE IF EXISTS`. Use **only** when you want to wipe the database and start over. |
 
 ---
 
-## 2. Pre-Configured Test Credentials & Coupons
+### Method 1 — Recommended: PowerShell Automated Script
 
-| Role | Email | Password | Access Level |
+Run the automated initializer from the project root:
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\init-db.ps1
+```
+The script will:
+1. Prompt you securely for your MySQL password (password is never displayed or written to disk).
+2. Automatically locate your local `mysql.exe` client.
+3. Apply [`schema-init.sql`](schema-init.sql) non-destructively.
+4. Verify that all 12 tables and seed data are created.
+
+---
+
+### Method 2 — Manual Setup via MySQL Workbench
+
+If you prefer using the MySQL Workbench graphical interface:
+
+1. Open **MySQL Workbench** and connect to your local MySQL connection (e.g. `Local instance MySQL80`).
+2. Open a query tab and create the database if it doesn't already exist:
+   ```sql
+   CREATE DATABASE IF NOT EXISTS `shopsphere`
+       CHARACTER SET utf8mb4
+       COLLATE utf8mb4_unicode_ci;
+   ```
+3. Go to **File** &rarr; **Open SQL Script...** (or press `Ctrl + Shift + O`).
+4. Select the file: `F:\java_Lab\java_Lab_Project\schema-init.sql`.
+5. Click the **Execute** button (the yellow lightning bolt icon ⚡).
+6. In the left **Navigator** pane under **Schemas**, right-click inside the schema area and select **Refresh All**.
+7. Expand `shopsphere` &rarr; `Tables` and verify that the 12 tables appear:
+   - `addresses`
+   - `cart`
+   - `categories`
+   - `coupon_usage`
+   - `coupons`
+   - `order_items`
+   - `orders`
+   - `payments`
+   - `products`
+   - `reviews`
+   - `users`
+   - `wishlist`
+
+---
+
+### Method 3 — Manual Setup via MySQL Command Line Client
+
+If `mysql.exe` is in your `PATH` or in `C:\Program Files\MySQL\MySQL Server 8.0\bin\`:
+
+```powershell
+# Open PowerShell in the project root:
+& "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -u root -p < schema-init.sql
+```
+Enter your MySQL password when prompted.
+
+---
+
+## Configuring Database Credentials
+
+The application's `DBConnection` class reads configuration from environment variables.
+
+### Supported Environment Variables
+
+| Variable | Description | Default | Example |
 |---|---|---|---|
-| **Administrator** | `admin@shopsphere.com` | `Password123!` (or `password`) | Storefront, Cart, Checkout, `/admin/*`, Swing Desktop GUI |
-| **Customer** | `customer@shopsphere.com` | `Password123!` (or `password`) | Storefront, Cart, Checkout, Profile, Orders |
+| `DB_URL` | Direct JDBC Connection URL | *(Derived from host/port/name)* | `jdbc:mysql://localhost:3306/shopsphere?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true` |
+| `DB_HOST` | MySQL hostname | `localhost` | `localhost` |
+| `DB_PORT` | MySQL port | `3306` | `3306` |
+| `DB_NAME` | MySQL database name | `shopsphere` | `shopsphere` |
+| `DB_USER` | MySQL username | *(Required)* | `root` |
+| `DB_PASSWORD` | MySQL password | *(Required)* | *(Your real MySQL password)* |
 
-### Verified Promotional Bike Coupons
-- **`BIKE10`**: **10% OFF** any order exceeding **$100.00** (max discount $300.00). Perfect for complete bike builds!
-- **`RIDE50`**: Flat **$50.00 OFF** any bike purchase exceeding **$500.00**.
-- **`SAVE10`**: 10% discount on orders over **$50.00** (max discount $25.00).
-- **`WELCOME20`**: Flat **$20.00 OFF** on order subtotals over **$100.00**.
-
-### Specialized Bike Catalog Categories
-1. **Mountain Bikes (MTB)**: Full-suspension enduro 29ers, lightweight hardtails.
-2. **Road & Racing Bikes**: Aero carbon road bikes, endurance disc frames.
-3. **Electric Bikes (E-Bikes)**: 750W high-torque commuter e-bikes with long-range 48V batteries.
-4. **Gravel & Hybrid Bikes**: All-road adventure gravel bikes with wide tire clearance.
-5. **Cycling Gear & Accessories**: MIPS certified safety helmets, high-lumen bike lights, heavy-duty U-locks, and flat pedals.
+> **Security Note:** Passwords are never hardcoded in source code, printed to logs, or committed to Git.
 
 ---
 
-## 3. Web Application Deployment (Apache Tomcat 11)
+### Option A — Recommended: One-Click PowerShell Launcher (`run-local.ps1`)
 
-### Step 1: Fix Permissions in Tomcat
-If Tomcat was recently extracted, make sure all `.sh` scripts in `bin/` are executable:
-```bash
-cd ~/Desktop/apache-tomcat-11.0.26/bin
-chmod +x *.sh
+The local launcher sets all environment variables, compiles the project, deploys the WAR, and launches Tomcat in one step:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts\run-local.ps1
 ```
+- It asks for your MySQL password using a secure, non-echoing prompt.
+- It sets `DB_URL`, `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, and `DB_PASSWORD` only in the current session memory.
+- It automatically detects your Tomcat 9 installation.
+- It compiles the project with `mvn clean package`.
+- It copies `target\shopsphere.war` to Tomcat's `webapps\` folder and starts Tomcat.
 
-### Step 2: Package the Application
-Build the Web Application Archive (`shopsphere.war`):
-```bash
-cd /home/sahil-sepat/Desktop/ShopSphare
+---
+
+### Option B — Tomcat `setenv.bat` (Recommended for Independent Tomcat Runs)
+
+When starting Tomcat directly via `startup.bat` or `catalina.bat`, Tomcat automatically executes `<Tomcat>\bin\setenv.bat` on startup to load environment variables.
+
+1. Copy the template from [`scripts\setenv.bat.template`](scripts/setenv.bat.template) to your Tomcat `bin\` directory:
+   ```powershell
+   # Replace the path with your actual Tomcat installation directory:
+   Copy-Item scripts\setenv.bat.template C:\apache-tomcat-9.0.121\bin\setenv.bat
+   ```
+2. Open `<Tomcat>\bin\setenv.bat` in Notepad:
+   ```powershell
+   notepad C:\apache-tomcat-9.0.121\bin\setenv.bat
+   ```
+3. Update `YOUR_MYSQL_PASSWORD_HERE` with your actual MySQL password:
+   ```bat
+   set "DB_HOST=localhost"
+   set "DB_PORT=3306"
+   set "DB_NAME=shopsphere"
+   set "DB_URL=jdbc:mysql://localhost:3306/shopsphere?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true"
+   set "DB_USER=root"
+   set "DB_PASSWORD=YOUR_ACTUAL_PASSWORD"
+   ```
+4. Save and close the file.
+
+---
+
+### Option C — Persistent Windows User Environment Variables
+
+If you want the variables to persist across all PowerShell windows:
+
+```powershell
+[System.Environment]::SetEnvironmentVariable("DB_URL", "jdbc:mysql://localhost:3306/shopsphere?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true", "User")
+[System.Environment]::SetEnvironmentVariable("DB_HOST", "localhost", "User")
+[System.Environment]::SetEnvironmentVariable("DB_PORT", "3306", "User")
+[System.Environment]::SetEnvironmentVariable("DB_NAME", "shopsphere", "User")
+[System.Environment]::SetEnvironmentVariable("DB_USER", "root", "User")
+[System.Environment]::SetEnvironmentVariable("DB_PASSWORD", "YOUR_ACTUAL_PASSWORD", "User")
+```
+*Note: Restart any open PowerShell or Command Prompt windows for these changes to take effect.*
+
+---
+
+## Building the Project
+
+Compile and package the application using Apache Maven:
+
+```powershell
+# From the project root (F:\java_Lab\java_Lab_Project):
 mvn clean package
 ```
-*Note: A pre-compiled and updated `shopsphere.war` is also located in the `target/` directory.*
 
-### Step 3: Deploy to Tomcat 11
-Copy the WAR file into your Tomcat `webapps/` folder:
-```bash
-cp /home/sahil-sepat/Desktop/ShopSphare/target/shopsphere.war ~/Desktop/apache-tomcat-11.0.26/webapps/
+Expected successful output:
 ```
-
-### Step 4: Start Tomcat
-```bash
-cd ~/Desktop/apache-tomcat-11.0.26/bin
-./startup.sh
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  ...
+[INFO] Finished at: ...
+[INFO] ------------------------------------------------------------------------
 ```
-*(To stop Tomcat when finished: `./shutdown.sh`)*
-
-### Step 5: Access the Storefront
-Open your browser and navigate to:
-- **Product Catalog (Storefront):** [http://localhost:8080/shopsphere/products](http://localhost:8080/shopsphere/products)
-- **Home Auto-Redirect:** [http://localhost:8080/shopsphere/](http://localhost:8080/shopsphere/)
-- **Shopping Cart:** [http://localhost:8080/shopsphere/cart](http://localhost:8080/shopsphere/cart)
-- **Secure Checkout:** [http://localhost:8080/shopsphere/checkout](http://localhost:8080/shopsphere/checkout)
-- **User Login:** [http://localhost:8080/shopsphere/login](http://localhost:8080/shopsphere/login)
-- **User Registration:** [http://localhost:8080/shopsphere/register](http://localhost:8080/shopsphere/register)
-- **Admin Dashboard:** [http://localhost:8080/shopsphere/admin/dashboard.jsp](http://localhost:8080/shopsphere/admin/dashboard.jsp) *(Protected by AdminFilter)*
-- **Admin Orders:** [http://localhost:8080/shopsphere/admin/orders.jsp](http://localhost:8080/shopsphere/admin/orders.jsp) *(Protected by AdminFilter)*
+The deployable web archive will be generated at:
+`F:\java_Lab\java_Lab_Project\target\shopsphere.war`
 
 ---
 
-## 4. Java Swing Desktop Administration GUI
+## Deploying to Apache Tomcat 9.0.121
 
-ShopSphere includes a native desktop application for store administrators. It programmatically applies the native OS Pluggable Look and Feel (PLAF) and uses `JTabbedPane` with data-dense `JTable` components in `JScrollPane`.
-
-### How to Launch the Desktop GUI
-```bash
-cd /home/sahil-sepat/Desktop/ShopSphare
-java -cp target/classes com.shopsphere.desktop.LoginFrame
-```
-
-### Desktop Application Features:
-1. **`LoginFrame`:** Administrator login screen. Log in with `admin@shopsphere.com` / `password`.
-2. **`AdminDashboard`:**
-   - **Products Management Tab:** View live catalog, Search SKU/Name, Restock (+10 units), Add Product, and Delete Product.
-   - **Orders Management Tab:** Inspect order totals and customer emails, update order statuses (Processing, Delivered, Cancelled).
-   - **Customers Management Tab:** Manage customer accounts, inspect registration dates, and toggle active/inactive status.
-
----
-
-## 5. Standalone Networking Modules (Academic Demos)
-
-Two standalone networking modules demonstrate distributed communication without requiring an active web browser.
-
-### Option A: One-Command Automated Test Suite
-Run the bundled test script to compile and run both networking modules:
-```bash
-cd /home/sahil-sepat/Desktop/ShopSphare
-./test-networking.sh
-```
-
----
-
-### Option B: Low-Level TCP Socket Client-Server Module
-Package: `com.shopsphere.network.socket`
-
-This module uses `java.net.ServerSocket` and `java.net.Socket` to communicate across raw byte streams with a custom command protocol.
-
-1. **Start the Socket Server:**
-   ```bash
-   java -cp target/classes com.shopsphere.network.socket.SocketInventoryServer 8085
-   ```
-2. **Run the Socket Client Demo:**
-   ```bash
-   java -cp target/classes com.shopsphere.network.socket.SocketInventoryClient localhost 8085
-   ```
-3. **Interactive Testing via Netcat (`nc`):**
-   ```bash
-   nc localhost 8085
-   ```
-   Type any of these commands:
-   ```text
-   PING
-   GET_STOCK SKU-LAPTOP-01
-   UPDATE_STOCK SKU-LAPTOP-01 -2
-   LIST_ALL
-   QUIT
+1. Ensure the Maven build succeeded (`target\shopsphere.war` exists).
+2. Copy `shopsphere.war` into your Tomcat `webapps\` directory:
+   ```powershell
+   # Adjust Tomcat path as needed:
+   Copy-Item target\shopsphere.war C:\apache-tomcat-9.0.121\webapps\ -Force
    ```
 
 ---
 
-### Option C: Java RMI (Remote Method Invocation) Module
-Package: `com.shopsphere.network.rmi`
+## Starting and Stopping Apache Tomcat 9
 
-This module demonstrates remote procedure calls over JRMP, remote interface stubs, in-process RMI registry management, and passing serialized [`Product`](src/main/java/com/shopsphere/model/Product.java) objects across the network.
+### Starting Tomcat
 
-1. **Start the RMI Server & Registry:**
-   ```bash
-   java -cp target/classes com.shopsphere.network.rmi.RmiInventoryServer
-   ```
-2. **Run the RMI Client:**
-   ```bash
-   java -cp target/classes com.shopsphere.network.rmi.RmiInventoryClient localhost 1099
-   ```
-
----
-
-## 6. Project Directory Structure
-
+#### Option 1: Foreground Mode (Console output visible in current window)
+```powershell
+# Run from your Tomcat bin directory:
+cd C:\apache-tomcat-9.0.121\bin
+.\catalina.bat run
 ```
-ShopSphare/
-├── pom.xml                                      # Maven WAR build configuration (Jakarta EE 11)
-├── shopsphere.sql                               # MySQL 8 schema, 12 tables, constraints & seed data
-├── test-networking.sh                           # Automated test runner for Sockets and RMI
-├── README.md                                    # Comprehensive setup and usage documentation
-├── src/
-│   ├── main/
-│   │   ├── java/com/shopsphere/
-│   │   │   ├── controller/                      # Web Servlets (jakarta.servlet.http.*)
-│   │   │   │   ├── CartServlet.java             # Shopping cart item management (/cart)
-│   │   │   │   ├── CheckoutServlet.java         # Server-verified order checkout (/checkout)
-│   │   │   │   ├── LoginServlet.java            # User authentication (/login)
-│   │   │   │   ├── ProductServlet.java          # Catalog browsing (/products)
-│   │   │   │   └── RegisterServlet.java         # Account registration (/register)
-│   │   │   ├── dao/                             # JDBC DAO Layer (PreparedStatements)
-│   │   │   │   ├── CartDAO.java
-│   │   │   │   ├── CouponDAO.java
-│   │   │   │   ├── OrderDAO.java                # Transactional order & line items creator
-│   │   │   │   ├── PaymentDAO.java
-│   │   │   │   ├── ProductDAO.java
-│   │   │   │   └── UserDAO.java
-│   │   │   ├── desktop/                         # Native Swing Desktop Application
-│   │   │   │   ├── AdminDashboard.java          # JTabbedPane, JTable in JScrollPane, PLAF
-│   │   │   │   └── LoginFrame.java              # PLAF-styled admin login window
-│   │   │   ├── filter/                          # Security Servlet Filters
-│   │   │   │   ├── AdminFilter.java             # Restricts /admin/* to role 'ADMIN'
-│   │   │   │   └── AuthenticationFilter.java    # Intercepts protected routes for active sessions
-│   │   │   ├── model/                           # Domain POJO Entities
-│   │   │   │   ├── Address.java
-│   │   │   │   ├── CartItem.java
-│   │   │   │   ├── Category.java
-│   │   │   │   ├── Coupon.java
-│   │   │   │   ├── CouponUsage.java
-│   │   │   │   ├── Order.java                   # Implements Serializable
-│   │   │   │   ├── OrderItem.java
-│   │   │   │   ├── Payment.java
-│   │   │   │   ├── Product.java                 # Implements Serializable
-│   │   │   │   ├── Review.java
-│   │   │   │   ├── User.java
-│   │   │   │   └── WishlistItem.java
-│   │   │   ├── network/
-│   │   │   │   ├── rmi/                         # Java Remote Method Invocation (RMI)
-│   │   │   │   │   ├── InventoryService.java    # java.rmi.Remote interface
-│   │   │   │   │   ├── InventoryServiceImpl.java# UnicastRemoteObject implementation
-│   │   │   │   │   ├── RmiInventoryClient.java  # RMI Registry lookup client
-│   │   │   │   │   └── RmiInventoryServer.java  # LocateRegistry & service binder
-│   │   │   │   └── socket/                      # Low-Level TCP Byte-Stream Sockets
-│   │   │   │       ├── SocketInventoryClient.java
-│   │   │   │       └── SocketInventoryServer.java
-│   │   │   ├── service/                         # Business Logic & Pricing Engine
-│   │   │   │   ├── CheckoutRequest.java         # DTO with zero client pricing fields
-│   │   │   │   ├── CheckoutResult.java          # DTO carrying server-verified breakdown
-│   │   │   │   ├── CheckoutService.java         # Multi-DAO coordinator & server pricing engine
-│   │   │   │   ├── OrderService.java            # Order tracking & cancellations
-│   │   │   │   └── ProductService.java          # Catalog & inventory rules
-│   │   │   └── util/
-│   │   │       ├── DBConnection.java            # DriverManager connection provider
-│   │   │       └── PasswordUtil.java            # Salted PBKDF2 with HMAC-SHA256
-│   │   └── webapp/
-│   │       ├── index.jsp                        # Storefront welcome view (auto-redirects to /products)
-│   │       ├── products.jsp                     # Dynamic catalog listing with sidebar filters
-│   │       ├── cart.jsp                         # Responsive cart table & quantity editor
-│   │       ├── checkout.jsp                     # Two-column checkout & order summary panel
-│   │       ├── css/
-│   │       │   └── styles.css                   # Custom theme & Bootstrap styling overrides
-│   │       ├── fragments/                       # Reusable JSP Layout Fragments
-│   │       │   ├── footer.jsp
-│   │       │   ├── header.jsp
-│   │       │   ├── navbar.jsp                   # Responsive navbar with search & cart counter
-│   │       │   └── sidebar.jsp
-│   │       ├── admin/                           # Store Manager Web Views
-│   │       │   ├── dashboard.jsp                # High-level metrics & low-stock view
-│   │       │   ├── orders.jsp                   # Customer orders with colored status badges
-│   │       │   └── sidebar.jsp                  # Administrative navigation
-│   │       └── WEB-INF/
-│   │           └── tags/                        # Reusable JSP Tag Components
-│   │               ├── productCard.tag          # Product card with discount & conditional button
-│   │               └── rating.tag               # Star rating visualizer
-└── target/
-    ├── classes/                                 # Compiled Java bytecode
-    └── shopsphere.war                           # Ready-to-deploy Web Application Archive
+*Press `Ctrl + C` to stop Tomcat.*
+
+#### Option 2: Background / Separate Window Mode
+```powershell
+cd C:\apache-tomcat-9.0.121\bin
+.\startup.bat
+```
+A new console window titled **Tomcat** will appear and display the server output.
+
+### Stopping Tomcat
+```powershell
+cd C:\apache-tomcat-9.0.121\bin
+.\shutdown.bat
 ```
 
 ---
 
-## 7. Troubleshooting FAQ
+## Accessing the Application
 
-### 1. `java.sql.SQLSyntaxErrorException: Unknown database 'shopsphere'`
-- **Cause:** The database was not created in MySQL before launching Tomcat.
-- **Solution:** Run `mysql -u root -ppassword < shopsphere.sql`.
+Once Tomcat reports server startup in the console (e.g. `Server startup in [XXXX] milliseconds`), open your web browser:
 
-### 2. `bash: ./startup.sh: Permission denied`
-- **Cause:** Shell scripts in Tomcat's `bin/` directory lack execute permissions.
-- **Solution:** Run `chmod +x ~/Desktop/apache-tomcat-11.x/bin/*.sh`.
+| Page | URL | Description |
+|---|---|---|
+| **Home (Product Catalog)** | [http://localhost:8080/shopsphere/](http://localhost:8080/shopsphere/) | Redirects to `/products` and displays available bicycles |
+| **Product Catalog** | [http://localhost:8080/shopsphere/products](http://localhost:8080/shopsphere/products) | Browse bikes, filter by category/price, search SKU/name |
+| **Shopping Cart** | [http://localhost:8080/shopsphere/cart](http://localhost:8080/shopsphere/cart) | View, update quantities, or remove cart items |
+| **Checkout** | [http://localhost:8080/shopsphere/checkout](http://localhost:8080/shopsphere/checkout) | Server-side pricing calculation, coupon redemption & order placement |
+| **Customer Login** | [http://localhost:8080/shopsphere/login](http://localhost:8080/shopsphere/login) | Customer and administrator sign-in |
+| **Customer Register** | [http://localhost:8080/shopsphere/register](http://localhost:8080/shopsphere/register) | Account registration with PBKDF2 password hashing |
+| **Admin Dashboard** | [http://localhost:8080/shopsphere/admin/dashboard.jsp](http://localhost:8080/shopsphere/admin/dashboard.jsp) | Protected store management (Admin role required) |
 
-### 3. `ClassNotFoundException: jakarta.servlet.http.HttpServlet`
-- **Cause:** Running on Apache Tomcat 9 or earlier (which only supports `javax.servlet.*`).
-- **Solution:** This project is built on Jakarta EE 11 / Servlet 6.1. Deploy on **Apache Tomcat 10.1+** or **Tomcat 11.0+**.
+---
 
-### 4. `HTTP Status 404 – Not Found [/shopsphere/cart]`
-- **Cause:** Tomcat was running an older build before `CartServlet.java` was deployed.
-- **Solution:** Re-copy the updated `target/shopsphere.war` to Tomcat's `webapps/` folder and restart Tomcat.
+## Pre-Configured Test Accounts
+
+The seed data in [`schema-init.sql`](schema-init.sql) includes two test user accounts:
+
+| Role | Email | Password | Details |
+|---|---|---|---|
+| **Administrator** | `admin@shopsphere.com` | `Password123!` | Has `admin` role; can access `/admin/*` |
+| **Customer** | `customer@shopsphere.com` | `Password123!` | Standard customer account with pre-seeded address |
+
+### Available Promotional Coupons
+
+| Coupon Code | Discount Type | Discount Value | Minimum Order | Usage Limit |
+|---|---|---|---|---|
+| `BIKE10` | Percentage | 10% (max $200) | $100.00 | 500 redemptions |
+| `RIDE50` | Fixed Amount | $50.00 | $500.00 | 1000 redemptions |
+| `SAVE10` | Percentage | 10% (max $25) | $50.00 | 500 redemptions |
+| `WELCOME20` | Fixed Amount | $20.00 | $100.00 | 1000 redemptions |
+
+---
+
+## Troubleshooting Guide
+
+### 1. HTTP Status 500 — `java.sql.SQLSyntaxErrorException: Table 'shopsphere.products' doesn't exist`
+- **Root Cause:** The `shopsphere` database exists on MySQL, but no tables were initialized.
+- **Solution:** Run the safe database initializer script:
+  ```powershell
+  powershell -ExecutionPolicy Bypass -File scripts\init-db.ps1
+  ```
+  Or open [`schema-init.sql`](schema-init.sql) in MySQL Workbench and execute it. Then refresh the page.
+
+### 2. Startup Failure — `ShopSphere Database Schema Incomplete: Database 'shopsphere' is missing required tables: [...]`
+- **Root Cause:** The application's `DatabaseInitializerListener` detected missing tables during web app deployment to protect against broken runtime transactions.
+- **Solution:** Execute [`schema-init.sql`](schema-init.sql) in MySQL Workbench or run `scripts\init-db.ps1`.
+
+### 3. `IllegalStateException: Database configuration error: DB_PASSWORD environment variable is not set`
+- **Root Cause:** Tomcat was started without inheriting the `DB_PASSWORD` (and/or `DB_USER`) environment variable.
+- **Solution:**
+  - If running via PowerShell: Launch using `powershell -ExecutionPolicy Bypass -File scripts\run-local.ps1`.
+  - If starting Tomcat from its `bin\` folder: Ensure `<Tomcat>\bin\setenv.bat` exists and has your real password set.
+
+### 4. `CommunicationsLinkException: Communications link failure`
+- **Root Cause:** The MySQL server is not running, or is listening on a different port than 3306.
+- **Solution:**
+  - Check MySQL service: `Get-Service -Name MySQL80`
+  - Start MySQL: `Start-Service -Name MySQL80`
+  - Verify port: Test connectivity with `Test-NetConnection -ComputerName localhost -Port 3306`.
+
+### 5. HTTP Status 404 — `The origin server did not find a current representation for the target resource`
+- **Root Cause:** `shopsphere.war` has not been deployed, or the context path differs.
+- **Solution:**
+  - Verify that `shopsphere.war` was copied to `<Tomcat>\webapps\shopsphere.war`.
+  - Check that Tomcat has extracted it into `<Tomcat>\webapps\shopsphere\`.
+  - Ensure you are navigating to `http://localhost:8080/shopsphere/` (with the `/shopsphere/` context prefix).
+
+### 6. Port 8080 Already in Use
+- **Root Cause:** Another application is already using port 8080.
+- **Solution:**
+  - Find the occupying process: `Get-NetTCPConnection -LocalPort 8080`
+  - Alternatively, edit `<Tomcat>\conf\server.xml` and change `<Connector port="8080"` to `<Connector port="8088"`.

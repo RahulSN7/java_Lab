@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="card border-0 shadow-sm rounded-3 p-3">
     <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">

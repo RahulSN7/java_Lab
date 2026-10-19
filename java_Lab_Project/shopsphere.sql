@@ -2,6 +2,13 @@
 -- Database Schema for ShopSphere E-Commerce System
 -- Target Engine: MySQL 8.0+
 -- Character Set: utf8mb4 / utf8mb4_unicode_ci
+--
+-- ⚠️ IMPORTANT SAFETY WARNING:
+-- This script contains DROP TABLE IF EXISTS statements (lines 18-29)
+-- and is intended ONLY for a complete, destructive database teardown/reset.
+--
+-- For SAFE, NON-DESTRUCTIVE initialization that preserves existing data,
+-- use 'schema-init.sql' instead.
 -- =====================================================================
 
 CREATE DATABASE IF NOT EXISTS `shopsphere`

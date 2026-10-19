@@ -1,5 +1,5 @@
 <%@ tag language="java" pageEncoding="UTF-8" description="Star-based rating visualizer component" %>
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ attribute name="value" type="java.lang.Double" required="false" description="Numeric rating value (e.g. 4.5)" %>
 <%@ attribute name="max" type="java.lang.Integer" required="false" description="Maximum number of stars, defaults to 5" %>
 
